@@ -83,7 +83,7 @@ hr {
 
 /* chcemy się pozbyć marginesu dla pierwszego obrazka,
 wiemy, że mamy 4 obrazki w wierszu czyli 1 5 9 13 ... */ 
-.row-fluid [class*="span"]:nth-child(4n+1) {
+.row-fluid [class*="span"]:nth-child(4n+1):not(.no-margin-left) {
 	margin-left: 0;
 }
 
@@ -96,24 +96,26 @@ wiemy, że mamy 4 obrazki w wierszu czyli 1 5 9 13 ... */
 .etap-pierwszy textarea {
 	font-size: 18px;
 	line-height: 1.45;
-	margin-top: 2em;
+	width: 100%; /* kontener, w którym jest textarea 
+					będzie definiować jego długość */
 }
 .etap-pierwszy span.counter {
 	position: relative;
-	margin-left: -110px;
-	top: -54px;
 	font-size: 16px;
 	line-height: 1.45;
+	margin-top: .5em;
+	float: right;
+	text-align: right;
 }
-.etap-pierwszy .relative-this {
-	position: relative;
-}
+
 .etap-pierwszy span.first-number {
 	font-weight: normal;
-	//font-size: 30px;
+}
+section[class*="etap"] {
+	border-bottom: 2px solid #eee;
 }
 section[class*="etap"] .page-header {
-	/*border-bottom: none;*/
+	border-bottom: none !important;
 }
 
 section[class*="etap"] span.badge {
