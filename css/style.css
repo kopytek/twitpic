@@ -1,0 +1,161 @@
+/*
+
+author: tylkonieto1@gmail.com 
+css style for twitpic project
+
+*/
+
+/*	=======================================
+	BODY
+	=======================================
+*/
+body, html {
+	height: 100%;
+}
+body {
+	/*padding-top: 20px;*/
+}
+
+/*	=======================================
+	WRAPPER
+	=======================================
+*/
+.wrapper {
+	min-height: 100%;
+	height: auto !important;
+	height: 100%;
+	margin: 0 auto -80px; /* the bottom margin is the negative value of the footer's height */
+}
+
+
+/*	=======================================
+	HEADER
+	=======================================
+*/
+
+.header-top {
+	margin-top: 20px;
+}
+.header-top ul li {
+	padding: 0 1px !important; /* little padding to make it less clutter */
+}
+
+
+/*	=======================================
+	.HERO-UNIT
+	=======================================
+*/
+
+.hero-unit {
+	padding: 30px;
+}
+
+/*	=======================================
+	LISTA KONT
+	=======================================
+*/
+.lista-kont .media-body h3 {
+	margin: 0;
+}
+.container .footer {
+	height: 60px;
+}
+a.link-home:hover,
+a.link-home:active {
+	/*border-bottom:none;*/
+	text-decoration: none;
+}
+/*	========================================
+	HR
+	========================================
+*/
+hr {
+	margin: 20px 0;
+	border: 0;
+	border-top: 2px solid #eeeeee;
+	border-bottom: 2px solid #ffffff;
+}
+
+/*	========================================
+	LISTA ZDJEC
+	========================================
+*/
+
+/* chcemy się pozbyć marginesu dla pierwszego obrazka,
+wiemy, że mamy 4 obrazki w wierszu czyli 1 5 9 13 ... */ 
+.row-fluid [class*="span"]:nth-child(4n+1) {
+	margin-left: 0;
+}
+
+
+/*	========================================
+	TWORZENIE KAMPANI
+	========================================
+*/
+
+.etap-pierwszy textarea {
+	font-size: 18px;
+	line-height: 1.45;
+	margin-top: 2em;
+}
+.etap-pierwszy span.counter {
+	position: relative;
+	margin-left: -110px;
+	top: -54px;
+	font-size: 16px;
+	line-height: 1.45;
+}
+.etap-pierwszy .relative-this {
+	position: relative;
+}
+.etap-pierwszy span.first-number {
+	font-weight: normal;
+	//font-size: 30px;
+}
+section[class*="etap"] .page-header {
+	/*border-bottom: none;*/
+}
+
+section[class*="etap"] span.badge {
+	margin: 30px 0;	
+	line-height: 40px;
+	font-size: 46px;
+	padding: 4px 12px;
+
+	-webkit-border-radius: 26px;
+	   -moz-border-radius: 26px;
+			border-radius: 26px;
+
+	-webkit-box-shadow: 1px 2px 6px rgba(0,0,0,.4);
+	   -moz-box-shadow: 1px 2px 6px rgba(0,0,0,.4);
+		    box-shadow: 1px 2px 6px rgba(0,0,0,.4);
+
+}
+
+
+/*	========================================
+	FOOTER
+	========================================
+*/
+footer {
+	position: relative;
+	height: 60px;
+	background-color: rgba(0,0,0,.05);
+	//padding-bottom: 1em;
+}
+
+/*	========================================
+	MEDIA QUERIES
+	========================================
+*/
+
+
+.jumbotron h1 {
+	font-size: 72px;
+	line-height: 1;
+}
+@media all and (min-width: 900px) {
+	.container {
+		max-width: 900px;
+	}
+}
