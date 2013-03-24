@@ -47,4 +47,18 @@ $(document).ready(function() {
 		$("#odznacz-wszystkie").hide();
 		$("#zaznacz-wszystkie").hide();
 	}
+
+	/* zajmujemy się kontami, podobne efekty & kod jak dla zdjęć */
+	if (($(".etap-trzeci ul.media-list").children().length) > 1) {
+		console.log("konta w kolekcji, eventy ON");
+
+		$(".etap-trzeci ul li ").on('click', function(event) {
+			event.preventDefault();
+			$(this).toggleClass("selected");
+			console.log("konto clicked");
+		});
+	} else {
+		$(".etap-trzeci ul.media-list").append('<h2>Brak dodanych kont</h2><p class="lead">Nie zostały dodane jeszcze żadne konta, dodaj najpierw konto by móc stworzyć kampanię</p>');
+	}
+
 });

@@ -149,17 +149,36 @@ by pokazać wybór zdjęć / kont*/
 	filter: alpha(opacity=100);
 	opacity: 1;
 }
-.etap-drugi ul li a.selected {
-	padding: 4px;
+/* pomocniczna klasa dla elementów, które zostały kliknięte i wybrane */
+.selected {
 	border-color: rgba(130, 179, 61, 1);
 	background-color: rgba(130, 179, 61, .8);
 
 	zoom: 1;
+	filter: alpha(opacity=100) !important;
+	opacity: 1 !important;
+}
+
+.etap-trzeci ul.media-list li {
+	cursor: pointer;
+	zoom: 1;
+	filter: alpha(opacity=50);
+	opacity: 0.5;
+
+	-webkit-transition: all 0.2s ease-in-out;
+	   -moz-transition: all 0.2s ease-in-out;
+	     -o-transition: all 0.2s ease-in-out;
+			transition: all 0.2s ease-in-out;
+}
+.etap-trzeci ul.media-list li:hover, 
+.etap-trzeci ul.media-list li:focus {
+	zoom: 1;
 	filter: alpha(opacity=100);
 	opacity: 1;
-}
-.etap-drugi ul li a.not-selected {
 
+	-webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.055);
+	   -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.055);
+			box-shadow: 0 1px 3px rgba(0, 0, 0, 0.055);
 }
 
 /*	========================================
