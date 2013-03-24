@@ -133,7 +133,34 @@ section[class*="etap"] span.badge {
 		    box-shadow: 1px 2px 6px rgba(0,0,0,.4);
 
 }
+/*zmieniamy defaultowy wygląd, dodamy klasy za pomocą JS
+by pokazać wybór zdjęć / kont*/
 
+.etap-drugi ul li a {
+	padding: 4px;
+	zoom: 1;
+	filter: alpha(opacity=50);
+	opacity: 0.5;
+}
+
+.etap-drugi ul li a:hover,
+.etap-drugi ul li a:focus {
+	zoom: 1;
+	filter: alpha(opacity=100);
+	opacity: 1;
+}
+.etap-drugi ul li a.selected {
+	padding: 4px;
+	border-color: rgba(130, 179, 61, 1);
+	background-color: rgba(130, 179, 61, .8);
+
+	zoom: 1;
+	filter: alpha(opacity=100);
+	opacity: 1;
+}
+.etap-drugi ul li a.not-selected {
+
+}
 
 /*	========================================
 	FOOTER
