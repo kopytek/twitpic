@@ -1,113 +1,114 @@
 /*
 
-author: tylkonieto1@gmail.com 
-css style for twitpic project
+	author: tylkonieto1@gmail.com 
+	css style for twitpic project
 
+	=======================================
+	
+	(inspired by elliotjaystocks.com)
+	
+	table of contents:
+		01 Basic layout
+			- Body, wrapper
+			- Header
+			- Footer
+		02 Overriding bootstrap styles
+			- hero-unit
+			- hr
+			- jumbotron
+		03 Dodawanie kont
+		04 Dodawanie zdjęć
+		05 Tworzenie kampanii
+			- etap-pierwszy
+			- etap-drugi
+			- etap-trzeci
+			- etap-czwarty
+		06 Monitorowanie kampanii
+		07 Media queries
+		
 */
 
 /*	=======================================
-	BODY
+	01 Basic layout
 	=======================================
 */
+
 body, html {
 	height: 100%;
 }
-body {
-	/*background-color: rgba(0,0,0,.1);*/
-	/*padding-top: 20px;*/
-	background-color: rgba(0,0,0,.01);
-	position: relative;
-	display: block;
-}
-body:after {
-	content: "";
-    background: url("/img/p4.png");
-    opacity: .2;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    position: fixed;
-    z-index: -1;   
-}
-.container {
-	//background-color: white !important;
-	//padding: 0 2em;
-}
-/*	=======================================
-	WRAPPER
-	=======================================
-*/
 .wrapper {
 	min-height: 100%;
 	height: auto !important;
 	height: 100%;
 	margin: 0 auto -80px; /* the bottom margin is the negative value of the footer's height */
 }
-
-
-/*	=======================================
-	HEADER
-	=======================================
-*/
-
 .header-top {
 	margin-top: 20px;
 }
 .header-top ul li {
 	padding: 0 1px !important; /* little padding to make it less clutter */
 }
+.container .footer {
+	height: 60px;
+}
+footer {
+	position: relative;
+	height: 60px;
+	background-color: rgba(0,0,0,.05);
+}
 
 
 /*	=======================================
-	.HERO-UNIT
+	02 Overriding bootstrap styles
 	=======================================
 */
 
 .hero-unit {
 	padding: 30px;
 }
-
-/*	=======================================
-	LISTA KONT
-	=======================================
-*/
-.lista-kont .media-body h3 {
-	margin: 0;
-}
-.container .footer {
-	height: 60px;
-}
-a.link-home:hover,
-a.link-home:active {
-	/*border-bottom:none;*/
-	text-decoration: none;
-}
-/*	========================================
-	HR
-	========================================
-*/
 hr {
 	margin: 20px 0;
 	border: 0;
 	border-top: 2px solid #eeeeee;
 	border-bottom: 2px solid #ffffff;
 }
+.jumbotron h1 {
+	font-size: 72px;
+	line-height: 1;
+}
+
+
+/*	=======================================
+	03 Dodawanie kont
+	=======================================
+*/
+
+.lista-kont .media-body h3 {
+	margin: 0;
+}
+a.link-home:hover,
+a.link-home:active {
+	text-decoration: none;
+}
+
 
 /*	========================================
-	LISTA ZDJEC
+	04 Dodawanie zdjęć
 	========================================
 */
 
-/* chcemy się pozbyć marginesu dla pierwszego obrazka,
-wiemy, że mamy 4 obrazki w wierszu czyli 1 5 9 13 ... */ 
+/*  
+	chcemy się pozbyć marginesu dla pierwszego obrazka,
+	wiemy, że mamy 4 obrazki w wierszu czyli 1 5 9 13 ... 
+	to kolejne numery pierwszych obrazków w wierszu
+*/ 
 .row-fluid [class*="span"]:nth-child(4n+1):not(.no-margin-left) {
 	margin-left: 0;
 }
 
 
 /*	========================================
-	TWORZENIE KAMPANI
+	05 Tworzenie kampanii
 	========================================
 */
 
@@ -117,25 +118,12 @@ wiemy, że mamy 4 obrazki w wierszu czyli 1 5 9 13 ... */
 	width: 100%; /* kontener, w którym jest textarea 
 					będzie definiować jego długość */
 }
-.etap-pierwszy span.counter {
-	position: relative;
-	font-size: 16px;
-	line-height: 1.45;
-	margin-top: .5em;
-	float: right;
-	text-align: right;
-}
-
-.etap-pierwszy span.first-number {
-	font-weight: normal;
-}
 section[class*="etap"] {
 	border-bottom: 2px solid #eee;
 }
 section[class*="etap"] .page-header {
 	border-bottom: none !important;
 }
-
 section[class*="etap"] span.badge {
 	margin: 30px 0;	
 	line-height: 40px;
@@ -153,14 +141,12 @@ section[class*="etap"] span.badge {
 }
 /*zmieniamy defaultowy wygląd, dodamy klasy za pomocą JS
 by pokazać wybór zdjęć / kont*/
-
 .etap-drugi ul li a {
 	padding: 4px;
 	zoom: 1;
 	filter: alpha(opacity=50);
 	opacity: 0.5;
 }
-
 .etap-drugi ul li a:hover,
 .etap-drugi ul li a:focus {
 	zoom: 1;
@@ -199,27 +185,12 @@ by pokazać wybór zdjęć / kont*/
 			box-shadow: 0 1px 3px rgba(0, 0, 0, 0.055);
 }
 
-/*	========================================
-	FOOTER
-	========================================
-*/
-footer {
-	position: relative;
-	height: 60px;
-	background-color: rgba(0,0,0,.05);
-	//padding-bottom: 1em;
-}
 
 /*	========================================
-	MEDIA QUERIES
+	07 Media Queries
 	========================================
 */
 
-
-.jumbotron h1 {
-	font-size: 72px;
-	line-height: 1;
-}
 @media all and (min-width: 900px) {
 	.container {
 		max-width: 900px;
