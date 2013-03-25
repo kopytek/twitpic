@@ -43,7 +43,10 @@ body, html {
 	margin: 0 auto -80px; /* the bottom margin is the negative value of the footer's height */
 }
 .header-top {
-	margin-top: 20px;
+	padding-top: 20px;
+	padding-bottom: 20px;
+	background-color: rgba(110,202,192,1);
+	/*background-color: #A7A18E;*/
 }
 .header-top ul li {
 	padding: 0 1px !important; /* little padding to make it less clutter */
@@ -72,9 +75,16 @@ hr {
 	border-top: 2px solid #eeeeee;
 	border-bottom: 2px solid #ffffff;
 }
+.jumbotron {
+	/*background-color: #F2EFE6 !important;*/
+	/*color: #494B4C !important;*/
+}
 .jumbotron h1 {
 	font-size: 72px;
 	line-height: 1;
+}
+.jumbotron p {
+	margin-top: 2em;
 }
 
 
@@ -120,6 +130,9 @@ a.link-home:active {
 }
 section[class*="etap"] {
 	border-bottom: 2px solid #eee;
+}
+section[class*="etap"]:last-child {
+	border-bottom: none;
 }
 section[class*="etap"] .page-header {
 	border-bottom: none !important;
