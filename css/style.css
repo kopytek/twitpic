@@ -45,7 +45,7 @@ body, html {
 .header-top {
 	padding-top: 20px;
 	padding-bottom: 20px;
-	background-color: rgba(110,202,192,1);
+	/*background-color: rgba(110,202,192,1);*/
 	/*background-color: #A7A18E;*/
 }
 .header-top ul li {

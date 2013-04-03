@@ -4,15 +4,16 @@
 	====================
 */
 
-var b1 = false; // add comment here 
+var b1 = false; // etap_pierwszy textarea test
+var b2 = false; // etap_czwarty input test
 var sK = $("#stworz-kampanie-button");
+var etap_pierwszy = $(".etap-pierwszy textarea");
 var etap_drugi = $(".etap-drugi ul li");	
 var etap_trzeci = $(".etap-trzeci ul"); 
-var etap_pierwszy = $(".etap-pierwszy textarea");
+var etap_czwarty_input = $(".etap-czwarty .nazwa-kampanii-input");
 
 var checkEtapy = function() {
-	
-	if ((b1) && (etap_drugi.find('a.selected').length) >=1 && (etap_trzeci.find('li.selected').length >= 1)) {
+	if (b1 && b2 && (etap_drugi.find('a.selected').length) >=1 && (etap_trzeci.find('li.selected').length >= 1)) {
 		sK.removeClass('disabled');
 	} else { 
 		sK.addClass('disabled'); 
@@ -146,4 +147,13 @@ $(document).ready(function() {
 		} else { b1 = false; }
 	});
 	
+	/*
+	sprawdzamy czy użytkownik wybrał nazwę dla kampanii i wpisał ją w input
+	*/
+	etap_czwarty_input.on('blur', function() {
+		if (etap_czwarty_input.val().length >=1) {
+			b2 = true;
+		} else { b2 = false; }
+		checkEtapy();
+	});
 });
