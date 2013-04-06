@@ -12,6 +12,7 @@
 			- Body, wrapper
 			- Header
 			- Footer
+			- Sections
 		02 Overriding bootstrap styles
 			- hero-unit
 			- hr
@@ -40,24 +41,30 @@ body, html {
 	min-height: 100%;
 	height: auto !important;
 	height: 100%;
-	margin: 0 auto -80px; /* the bottom margin is the negative value of the footer's height */
+	margin: 0 auto -4em; /* the bottom margin is the negative value of the footer's height */
 }
 .header-top {
 	padding-top: 20px;
-	padding-bottom: 20px;
-	/*background-color: rgba(110,202,192,1);*/
-	/*background-color: #A7A18E;*/
+}
+.header-top ul {
+	margin-top: 1em;
 }
 .header-top ul li {
 	padding: 0 1px !important; /* little padding to make it less clutter */
 }
-.container .footer {
-	height: 60px;
+.footer {
+	line-height: 3em; /* same as height of the footer */
+	padding-top: 4px;
 }
 footer {
-	position: relative;
-	height: 60px;
-	background-color: rgba(0,0,0,.05);
+	background-color: #ddd;
+	height: 4em;
+	box-shadow: 0 -1px 1px #bbb;
+}
+.lista-kont, 
+.lista-zdjęć,
+.tworzenie-kampanii {
+	margin-bottom: 4em;
 }
 
 
@@ -81,10 +88,10 @@ hr {
 }
 .jumbotron h1 {
 	font-size: 72px;
-	line-height: 1;
+	line-height: 1em;
 }
 .jumbotron p {
-	margin-top: 2em;
+	margin-top: 1em;
 }
 
 
