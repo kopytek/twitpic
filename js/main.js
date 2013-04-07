@@ -28,8 +28,8 @@ $(document).ready(function() {
 		allowed: 140,
 		warning: 30,
 		counterText: 'Pozostało: '
-	});
-
+	});	
+	
 	/*  
 		trochę kodu dla wizualizacji kliknięcia danego zdjęcia + dodanie
 		eventów dla przycisków tak być działały 

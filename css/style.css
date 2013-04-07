@@ -63,7 +63,8 @@ footer {
 }
 .lista-kont, 
 .lista-zdjęć,
-.tworzenie-kampanii {
+.tworzenie-kampanii,
+.monitorowanie-kampanii {
 	margin-bottom: 4em;
 }
 
@@ -183,7 +184,8 @@ by pokazać wybór zdjęć / kont*/
 	opacity: 1 !important;
 }
 
-.etap-trzeci ul.media-list li {
+.etap-trzeci ul.media-list li, 
+.stworzone-kampanie .nazwa-kampanii {
 	cursor: pointer;
 	zoom: 1;
 	filter: alpha(opacity=50);
@@ -195,7 +197,8 @@ by pokazać wybór zdjęć / kont*/
 			transition: all 0.2s ease-in-out;
 }
 .etap-trzeci ul.media-list li:hover, 
-.etap-trzeci ul.media-list li:focus {
+.etap-trzeci ul.media-list li:focus,
+.stworzone-kampanie .nazwa-kampanii {
 	zoom: 1;
 	filter: alpha(opacity=100);
 	opacity: 1;
@@ -206,6 +209,9 @@ by pokazać wybór zdjęć / kont*/
 }
 .etap-czwarty {
 	padding-bottom: 20px;
+}
+.stworzone-kampanie .komentarze-div {
+	display: none;
 }
 .monitorowanie-kampanii .stworzone-kampanie {
 	margin-left: 0;
