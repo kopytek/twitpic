@@ -24,6 +24,7 @@ $(document).ready(function() {
 	// zapytania GET na listę kampanii reklamowych 
 	var miejsce = $(".monitorowanie-kampanii .container .stworzone-kampanie");
 
+	// url dla serwera + link do pliku JSON z kampaniami
 	$.getJSON('http://q4.maszyna.pl/api/adds', function (data){
 		$.each(data, function(index, item){				
 			// tworzymy szkielet html do którego będą wrzucone dane z GET
