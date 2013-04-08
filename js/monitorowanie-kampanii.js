@@ -38,6 +38,7 @@ $(document).ready(function() {
 			miejsce.append(htmlString);
 		});
 		dodajEfektyWizualneDoKampanii();
+		$(".alert").alert('close')
 	});
 
 });
