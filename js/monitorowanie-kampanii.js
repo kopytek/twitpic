@@ -12,4 +12,38 @@ $(document).ready(function() {
 		$(".stworzone-kampanie .komentarze-div ul").append('<h2>Brak dodanych komentarzy</h2>');
 	}
 
+
+	// zapytania 
+
+	var miejsce = $(".monitorowanie-kampanii .container");
+
+	$.getJSON('http://q4.maszyna.pl/api/adds', function (data){
+		$.each(data, function(index, item){
+			miejsce.append("<p>" + item._id.$id + item.name + item.path + item.text + "</p>");
+		});
+	});
+
+// $.ajax({
+//    url: "http://q4.maszyna.pl/api/adds",
+//     dataType: 'json',
+//     success: function(data){
+//         console.log(data);
+//      }
+//  });
+
+	// $.ajax({
+ //     type: "GET",
+ //     url: filename,
+ //     async: false,
+ //     beforeSend: function(x) {
+ //      if(x &amp;&amp; x.overrideMimeType) {
+ //       x.overrideMimeType("application/j-son;charset=UTF-8");
+ //      }
+ // },
+ // dataType: "json",
+ // success: function(data){
+ //    //do your stuff with the JSON data
+ // }
+// });
+
 });
