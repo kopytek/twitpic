@@ -20,68 +20,50 @@ var dodajEfektyWizualneDoKampanii = function() {
 }
 
 $(document).ready(function() {
-
-	// zapytania GET na listę kampanii reklamowych 
 	var miejsce = $(".monitorowanie-kampanii .container .stworzone-kampanie");
+	// zapytania GET na listę kampanii reklamowych 
+	$.ajax({
+		url: 'http://q4.maszyna.pl/api/adds',
+		type: 'get',
+		dataType: 'json',
 
-	// $.getJSON('http://q4.maszyna.pl/api/adds', function (data){
-	// 	$.each(data, function(index, item){				
-	// 		// tworzymy szkielet html do którego będą wrzucone dane z GET
-
-	// 		var htmlString = "";
-	// 		htmlString += '<div class="row-fluid" data-id-kampanii="'+ item._id.$id + '" >';
-	// 		htmlString += '<li class="media well well-small span6 nazwa-kampanii">';
-	// 		htmlString += '<h2 class="text-info">' + item.name + '</h2>';
-	// 		htmlString += '<p class=" ">' + item.text + '</p>';
-	// 		htmlString += '</li>';
-	// 		htmlString += '<button class="btn btn-danger" type="submit">Usuń kampanię</button>';
-	// 		htmlString += '</div';
-	// 		miejsce.append(htmlString);
-	// 	});
-	// 	dodajEfektyWizualneDoKampanii();
-	// 	$(".alert").alert('close')
-	// });
-
-	$.ajax(
-		{
-			url: 'http://q4.maszyna.pl/api/adds',
-			type: 'get',
-			dataType: 'json',
-
-			error: function(){
-				console.log("error");				
-			},
-			beforeSend: function() {
-				var alertBox = "";
-				alertBox += '<div class="alert alert-info">';
-              	alertBox += '<h4><strong>Trwa pobieranie informacji z serwera, proszę czekać</strong></h4>';
-            	alertBox += '</div>';
-            	miejsce.append(alertBox);
-				console.log("wysyłamy zapytanie");
-			},
-			complete: function() {
-				$(".alert").alert('close')
-				// miejsce.$("div .alert").remove();
-				console.log("request completed");
-			},
-			success: function(data) {
-				$.each(data, function(index, item){				
-					// tworzymy szkielet html do którego będą wrzucone dane z GET
-
-					var htmlString = "";
-					htmlString += '<div class="row-fluid" data-id-kampanii="'+ item._id.$id + '" >';
-					htmlString += '<li class="media well well-small span6 nazwa-kampanii">';
-					htmlString += '<h2 class="text-info">' + item.name + '</h2>';
-					htmlString += '<p class=" ">' + item.text + '</p>';
-					htmlString += '</li>';
-					htmlString += '<button class="btn btn-danger" type="submit">Usuń kampanię</button>';
-					htmlString += '</div';
-					miejsce.append(htmlString);
-				});
-				dodajEfektyWizualneDoKampanii();
-				console.log("wszystko poszło wg planu");
-			}
+		error: function(){
+			var errorBox = "";
+			errorBox += '<div class="alert alert-error">';
+          	errorBox += '<h4><strong>Nie udało się pobrać informacji z serwera, wystąpił błąd.</strong></h4>';
+        	errorBox += '</div>';
+        	miejsce.append(errorBox);
+			console.log("error");				
+		},
+		beforeSend: function() {
+			var alertBox = "";
+			alertBox += '<div class="alert alert-info">';
+          	alertBox += '<h4><strong>Trwa pobieranie informacji z serwera, proszę czekać.</strong></h4>';
+        	alertBox += '</div>';
+        	miejsce.append(alertBox);
+			console.log("wysyłamy zapytanie");
+		},
+		complete: function() {
+			// usuwamy box alert-info, zostawiamy alert-error jeśli wystąpił błąd
+			$(".alert-info").alert('close');
+			console.log("request completed");
+		},
+		success: function(data) {
+			$.each(data, function(index, item){				
+				// tworzymy szkielet html do którego będą wrzucone dane z GET
+				var htmlString = "";
+				htmlString += '<div class="row-fluid" data-id-kampanii="'+ item._id.$id + '" >';
+				htmlString += '<li class="media well well-small span6 nazwa-kampanii">';
+				htmlString += '<h2 class="text-info">' + item.name + '</h2>';
+				htmlString += '<p class=" ">' + item.text + '</p>';
+				htmlString += '</li>';
+				htmlString += '<button class="btn btn-danger" type="submit">Usuń kampanię</button>';
+				htmlString += '</div';
+				miejsce.append(htmlString);
+			});
+			$(".alert").alert('close')
+			dodajEfektyWizualneDoKampanii();
+			console.log("wszystko poszło wg planu");
 		}
-	);
-
+	});
 });
