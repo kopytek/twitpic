@@ -16,6 +16,8 @@
     <script src="/js/jquery-1.9.1.min.js"></script>
     <!-- holder.js -->
     <script src="/js/holder.js"></script>
+    <!-- fuzzy search -->
+    <script src="/js/fuse.min.js"></script>
 
   </head>
   <body>
@@ -27,7 +29,7 @@
               <a href="/dodawanie-kont" title="Dodawanie kont" alt="">Dodawanie kont</a>
             </li>
             <li class="">
-              <a href="/dodawanie-zdjec" title="Dodawanie zdjęć" alt="">Dodawanie zdjęć</a>
+              <a href="/dodawanie-reklamy" title="Dodawanie reklamy" alt="">Dodawanie reklamy</a>
             </li>
             <li class="">
               <a href="/tworzenie-kampanii" title="Tworzenie kampanii" alt="">Tworzenie kampanii</a>
@@ -50,9 +52,147 @@
         <hr>
       </div>      
       <section class="monitorowanie-kampanii">
+        <div class="container well-filtrowanie">
+          <div class="row-fluid filtrowanie-search ">
+            <div class="span5">
+            <label class="">Nazwa reklamy</label>
+              <div class="input-prepend span12">
+                <span class="add-on span2"><i class="icon-search"></i></span>
+                <input class="span10" id="nazwaReklamy" type="text" placeholder="Username">
+              </div>
+            </div>
+            <div class="span7">
+            <label class="">Nazwa kampanii</label>
+              <div class="input-prepend span12">
+                <span class="add-on span2"><i class="icon-search"></i></span>
+                <input class="span10" id="nazwaKampanii" type="text" placeholder="Username">
+              </div>
+            </div>
+          </div>
+          <div class="row-fluid filtrowanie-buttons">
+           <div class="btn-group">
+              <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+                Dodane przez
+                <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu">
+                <li class=""><a href="#" alt="">user1</a></li>
+                <li class=""><a href="#" alt="">user2</a></li>
+                <li class=""><a href="#" alt="">lista będzie dynamicznie wypełniona usera</a></li>
+              </ul>
+            </div>
+            <button class="btn btn-info pull-right" type="button">Pokaż wszystkie</button>
+          </div>  
+        </div>
         <div class="container">
           <h3>Lista stworzonych kampanii</h3>
-          <ul class="stworzone-kampanie">
+          <div class="alert-box">
+          </div>
+          <ul class="stworzone-kampanie row-fluid">
+            <!-- <li class="media span6"  data-nazwa-kampanii="Słoneczko">
+              <div class="span12 well-campaign">
+                <div class="pull-left">
+                  <img class="media-object" data-src="holder.js/128x128">
+                </div>
+                <div class="media-body">
+                  <h1> Hello </h1>
+                </div>
+                <div class="media-details">
+                  <p>Tu będą wyświetlane szczegóły.</p>
+                </div>
+                <div class="media-buttons">
+                  <a href="#" class="pull-left pokaz-szczegoly" alt=""><i class="icon-comment"></i>Pokaż szczegóły</a>
+                  <a href="#" class="pull-right usun-kampanie" alt=""><i class="icon-trash"></i>Usuń kampanię</a>
+                </div>
+              </div>
+            </li>
+            <li class="media span6" data-nazwa-kampanii="slonce">
+              <div class="span12 well-campaign">
+                <div class="pull-left">
+                  <img class="media-object" data-src="holder.js/128x128">
+                </div>
+                <div class="media-body">
+                  <h1> Hello </h1>
+                </div>
+                <div class="media-details">
+                  <p>Tu będą wyświetlane szczegóły.</p>
+                </div>
+                <div class="media-buttons">
+                  <a href="#" class="pull-left pokaz-szczegoly" alt=""><i class="icon-comment"></i>Pokaż szczegóły</a>
+                  <a href="#" class="pull-right usun-kampanie" alt=""><i class="icon-trash"></i>Usuń kampanię</a>
+                </div>
+              </div>
+            </li>
+            <li class="media span6" data-nazwa-kampanii="sun">
+              <div class="span12 well-campaign">
+                <div class="pull-left">
+                  <img class="media-object" data-src="holder.js/128x128">
+                </div>
+                <div class="media-body">
+                  <h1> Hello </h1>
+                </div>
+                <div class="media-details">
+                  <p>Tu będą wyświetlane szczegóły.</p>
+                </div>
+                <div class="media-buttons">
+                  <a href="#" class="pull-left pokaz-szczegoly" alt=""><i class="icon-comment"></i>Pokaż szczegóły</a>
+                  <a href="#" class="pull-right usun-kampanie" alt=""><i class="icon-trash"></i>Usuń kampanię</a>
+                </div>
+              </div>
+            </li>
+               <li class="media span6" data-nazwa-kampanii="vbnmjD">
+              <div class="span12 well-campaign">
+                <div class="pull-left">
+                  <img class="media-object" data-src="holder.js/128x128">
+                </div>
+                <div class="media-body">
+                  <h1> Hello </h1>
+                </div>
+                <div class="media-details">
+                  <p>Tu będą wyświetlane szczegóły.</p>
+                </div>
+                <div class="media-buttons">
+                  <a href="#" class="pull-left pokaz-szczegoly" alt=""><i class="icon-comment"></i>Pokaż szczegóły</a>
+                  <a href="#" class="pull-right usun-kampanie" alt=""><i class="icon-trash"></i>Usuń kampanię</a>
+                </div>
+              </div>
+            </li>
+               <li class="media span6" data-nazwa-kampanii="apple">
+              <div class="span12 well-campaign">
+                <div class="pull-left">
+                  <img class="media-object" data-src="holder.js/128x128">
+                </div>
+                <div class="media-body">
+                  <h1> Hello </h1>
+                </div>
+                <div class="media-details">
+                  <p>Tu będą wyświetlane szczegóły.</p>
+                </div>
+                <div class="media-buttons">
+                  <a href="#" class="pull-left pokaz-szczegoly" alt=""><i class="icon-comment"></i>Pokaż szczegóły</a>
+                  <a href="#" class="pull-right usun-kampanie" alt=""><i class="icon-trash"></i>Usuń kampanię</a>
+                </div>
+              </div>
+            </li> -->
+
+            <!-- <li class="media row-fluid ">
+              <div class="span6 well-campaign">
+                <div class="pull-left">
+                  <img class="media-object" data-src="holder.js/128x128">
+                </div>
+                <div class="media-body">
+                  <h1> Hello </h1>
+                </div>
+                <div class="media-details">
+                  <p>Tu będą wyświetlane szczegóły.</p>
+                </div>
+                <div class="media-buttons">
+                  <a href="#" class="pull-left pokaz-szczegoly" alt=""><i class="icon-comment"></i>Pokaż szczegóły</a>
+                  <a href="#" class="pull-right usun-kampanie" alt=""><i class="icon-trash"></i>Usuń kampanię</a>
+                </div>
+              </div>
+            </li> -->
+           
             <!-- <div class="row-fluid komentarze-div">
               <ul class="media-list">
                 <li class="media">
