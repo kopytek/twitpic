@@ -17,26 +17,6 @@ function fuzzyS(campaigns) {
 			isCaseSensitive = false,
 			fuse;
 
-	// function search() {
-	// 	var r = fuse.search(input.val());
-	// 	$.each(r, function() {
-	// 		console.log(this);
-	// 		console.log(this.id, this.name);
-	// 	});
-	// }
-
-	// function createFuse() {
-	// 	var keys = [];
-
-	// 	// tutaj dodajemy albo nazwe kampanii albo nazwe reklamy
-	// 	// w tym momencie do testów będzie tylko nazwa reklamy
-	// 	keys.push('name');
-	// 	fuse = new Fuse(campaigns, {
-	// 		keys : keys, 
-	// 		isCaseSensitive: isCaseSensitive,
-	// 		id: 'id'
-	// 	});
-	// }
 	function search2() {
 		var options = {
 			keys: ['name'],
@@ -44,13 +24,37 @@ function fuzzyS(campaigns) {
 		}
 		var f = new Fuse(campaigns.campaigns, options);
 		var result = f.search(input.val());
-
+	
 		console.log(result);
+
+		// jeśli jest pusty response to pokazujemy wszystkie elementy na liscie 
+		if (result.length == 0 ) {
+			$("ul.stworzone-kampanie li").show();
+		} else {
+			// response nie jest pusty, ukrywamy elementy bo zostało coś znalezione
+			$.each(result, function(i, item) {
+				console.log(item);
+
+				// if ($("ul.stworzone-kampanie li").not("[data-id-kampanii*=" + item + "]")) {
+				// 	$(this).hide();
+				// } else { $(this).show(); }
+
+				$("ul.stworzone-kampanie li").not("[data-id-kampanii*=" + item + "]").hide();
+
+				// $.each($("ul.stworzone-kampanie li"), function() {
+				// 	if ($(this).is(":hidden") && ($(this).attr("data-id-kampanii") == item)) {
+				// 		// el jest ukryty i pasuje do wyszukiwania => pokazujemy
+				// 		$(this).show();
+				// 	} else { 
+				// 		// $(this).hide(); 
+				// 	}
+				// });
+					
+			});
+		}	
 	}
 
-
 	input.on("keyup", search2);
-	// createFuse();
 }
 
 var dodajEfektyWizualneDoKampanii = function() {
@@ -149,24 +153,16 @@ $(document).ready(function() {
 			$(".alert").alert('close')
 			dodajEfektyWizualneDoKampanii();
 			dodajWyswietlanieSzczegolow();
+		
 			// obiekt json, w którym przechowujemy informacje o kampaniach, id + nazwa
 			// dzięku temu w filtrowaniu posłużymy się id do ukrywania
+<<<<<<< HEAD
 >>>>>>> zapytania
 			
 			// _json = JSON.stringify(jsonObj);
+=======
+>>>>>>> zapytania
 			fuzzyS(jsonObj);
-			console.log("wszystko poszło wg planu");
 		}
 	});
-
-	// // implementujemy podstawowe filtry
-	// $("#nazwaReklamy").on("blur", function() {
-
-	// 	// pobieramy string usera
-	// 	var value = $(this).val().toLowerCase();
-	// 	// pokazujemy wszystko
-	// 	lista.show();
-	// 	// ukrywamy
-	// 	lista.not("[data-nazwa-kampanii*=" + value + "]").hide();
-	// });
 });
