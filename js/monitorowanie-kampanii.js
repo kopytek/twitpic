@@ -33,7 +33,23 @@ function fuzzyS(campaigns) {
 		} else {
 			// response nie jest pusty, ukrywamy elementy bo zostało coś znalezione
 			$.each(result, function(i, item) {
+				console.log(item);
+
+				// if ($("ul.stworzone-kampanie li").not("[data-id-kampanii*=" + item + "]")) {
+				// 	$(this).hide();
+				// } else { $(this).show(); }
+
 				$("ul.stworzone-kampanie li").not("[data-id-kampanii*=" + item + "]").hide();
+
+				// $.each($("ul.stworzone-kampanie li"), function() {
+				// 	if ($(this).is(":hidden") && ($(this).attr("data-id-kampanii") == item)) {
+				// 		// el jest ukryty i pasuje do wyszukiwania => pokazujemy
+				// 		$(this).show();
+				// 	} else { 
+				// 		// $(this).hide(); 
+				// 	}
+				// });
+					
 			});
 		}	
 	}
