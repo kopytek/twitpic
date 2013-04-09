@@ -18,7 +18,7 @@
 			- hr
 			- jumbotron
 		03 Dodawanie kont
-		04 Dodawanie zdjęć
+		04 Dodawanie reklamy
 		05 Tworzenie kampanii
 			- etap-pierwszy
 			- etap-drugi
@@ -69,7 +69,7 @@ footer {
 	box-shadow: 0 -1px 1px #bbb;
 }
 .lista-kont, 
-.lista-zdjęć,
+.tworzenie-reklamy,
 .tworzenie-kampanii,
 .monitorowanie-kampanii {
 	margin-bottom: 4em;
@@ -118,31 +118,10 @@ a.link-home:active {
 
 
 /*	========================================
-	04 Dodawanie zdjęć
+	04 Dodawanie reklamy
 	========================================
 */
 
-/*  
-	chcemy się pozbyć marginesu dla pierwszego obrazka,
-	wiemy, że mamy 4 obrazki w wierszu czyli 1 5 9 13 ... 
-	to kolejne numery pierwszych obrazków w wierszu
-*/ 
-.row-fluid [class*="span"]:nth-child(4n+1):not(.no-margin-left) {
-	margin-left: 0;
-}
-
-
-/*	========================================
-	05 Tworzenie kampanii
-	========================================
-*/
-
-.etap-pierwszy textarea {
-	font-size: 18px;
-	line-height: 1.45;
-	width: 100%; /* kontener, w którym jest textarea 
-					będzie definiować jego długość */
-}
 section[class*="etap"] {
 	border-bottom: 2px solid #eee;
 }
@@ -167,9 +146,41 @@ section[class*="etap"] span.badge {
 		    box-shadow: 1px 2px 6px rgba(0,0,0,.4);
 
 }
+.etap-pierwszy textarea {
+	font-size: 18px;
+	line-height: 1.45;
+	width: 100%; /* kontener, w którym jest textarea 
+					będzie definiować jego długość */
+}
+.tworzenie-reklamy .etap-trzeci {
+	/*mały margines dolny by było więcej miejsca*/
+	margin-bottom: 2em;
+}
+.nazwa-reklamy-input {
+	/* powiększamy lekko input*/
+	height: 34px !important;
+	font-size: 16px;
+	line-height: 1.4;
+}
+/*  
+	chcemy się pozbyć marginesu dla pierwszego obrazka,
+	wiemy, że mamy 4 obrazki w wierszu czyli 1 5 9 13 ... 
+	to kolejne numery pierwszych obrazków w wierszu
+*/ 
+.row-fluid [class*="span"]:nth-child(4n+1):not(.no-margin-left) {
+	/*margin-left: 0;*/
+}
+
+
+/*	========================================
+	05 Tworzenie kampanii
+	========================================
+*/
+
+
 /*zmieniamy defaultowy wygląd, dodamy klasy za pomocą JS
 by pokazać wybór zdjęć / kont*/
-.etap-drugi ul li a {
+/*.etap-drugi ul li a {
 	padding: 4px;
 	zoom: 1;
 	filter: alpha(opacity=50);
@@ -180,7 +191,7 @@ by pokazać wybór zdjęć / kont*/
 	zoom: 1;
 	filter: alpha(opacity=100);
 	opacity: 1;
-}
+}*/
 /* pomocniczna klasa dla elementów, które zostały kliknięte i wybrane */
 .selected {
 	border-color: rgba(130, 179, 61, 1);
@@ -191,7 +202,7 @@ by pokazać wybór zdjęć / kont*/
 	opacity: 1 !important;
 }
 
-.etap-trzeci ul.media-list li, 
+/*.etap-trzeci ul.media-list li, 
 .stworzone-kampanie .nazwa-kampanii {
 	cursor: pointer;
 	zoom: 1;
@@ -216,7 +227,7 @@ by pokazać wybór zdjęć / kont*/
 }
 .etap-czwarty {
 	padding-bottom: 20px;
-}
+}*/
 
 /*	========================================
 	05 Monitorowanie kampanii

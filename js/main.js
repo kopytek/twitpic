@@ -22,13 +22,6 @@ var checkEtapy = function() {
 
 /* document.ready() */
 $(document).ready(function() {
-
-	/* plugin dla textarea do sprawdzania ilości znaków */	
-	$("#wiadomoscDoWyslania").charCount({
-		allowed: 140,
-		warning: 30,
-		counterText: 'Pozostało: '
-	});	
 	
 	/*  
 		trochę kodu dla wizualizacji kliknięcia danego zdjęcia + dodanie
