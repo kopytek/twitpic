@@ -25,6 +25,8 @@
 			- etap-trzeci
 			- etap-czwarty
 		06 Monitorowanie kampanii
+			- filtrowanie kampanii
+			- wyswietlanie miniatur kampanii
 		07 Media queries
 		
 */
@@ -34,6 +36,11 @@
 	=======================================
 */
 
+* {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
 body, html {
 	height: 100%;
 }
@@ -209,6 +216,99 @@ by pokazać wybór zdjęć / kont*/
 }
 .etap-czwarty {
 	padding-bottom: 20px;
+}
+
+/*	========================================
+	05 Monitorowanie kampanii
+	========================================
+*/
+.well-campaign,
+.well-filtrowanie {
+	background-color: rgba(0,0,0,.04);
+	border: 1px solid rgba(0,0,0,.15);
+	border-left: 4px solid rgba(237,48,60,.7);
+
+	border-radius: 2px;
+	/*-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+	   -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+			box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);*/
+}
+.well-filtrowanie {
+	padding: 1em;
+	border: 1px solid rgba(0,0,0,.15);
+	background-color: rgba(0,0,0,.03);
+	-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+	   -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+			box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+
+}
+.filtrowanie-search label {
+	color: #999;
+	text-align: center;
+}
+.filtrowanie-buttons {
+	margin-top: 1em;
+}
+.well-campaign h1 {
+	color: #666;
+}
+.well-campaign .pull-left,
+.well-campaign .media-body,
+.well-campaign .media-details {
+	padding: 1em;
+}
+.well-campaign .pull-left img {
+	width: 100%;
+	height: 100%;
+	max-width: 128px;
+	max-height: 128px;
+}
+.well-campaign .media-details{
+	position: relative;
+	left: 0;
+	width: 100%;
+	float: left;
+	display: none;
+}
+.well-campaign .media-buttons {
+	position: relative;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	background-color: rgba(0, 0, 0, .06);
+	float: left;
+
+	border-top: 1px solid rgba(0,0,0,.15);
+}
+.well-campaign .media-buttons i {
+	width: 16px;
+	-webkit-transform: scale(1.1);
+	   -moz-transform: scale(1.1);
+		    transform: scale(1.1);
+}
+.well-campaign .media-buttons a {
+	color: #999;
+	border-left: 1px solid rgba(0, 0, 0, .15);
+	padding: .8em;
+	/*text-transform: uppercase;*/
+	text-decoration: none;
+
+	-webkit-transition: all 0.2s ease-in-out;
+	   -moz-transition: all 0.2s ease-in-out;
+	     -o-transition: all 0.2s ease-in-out;
+			transition: all 0.2s ease-in-out;
+}
+.well-campaign .media-buttons a:focus, 
+.well-campaign .media-buttons a:hover {
+	/*color: #f5f5f5;*/
+	background-color: rgba(0, 0, 0, .1);
+}
+.well-campaign .media-buttons a.pokaz-szczegoly {
+	width: 70%;
+	text-align: center;
+}
+.well-campaign .media-buttons a.usun-kampanie {
+	width: 30%;
 }
 .stworzone-kampanie .komentarze-div {
 	display: none;

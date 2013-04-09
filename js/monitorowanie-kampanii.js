@@ -19,6 +19,13 @@ var dodajEfektyWizualneDoKampanii = function() {
 	}
 }
 
+var dodajWyswietlanieSzczegolow = function() {
+	$(".pokaz-szczegoly").on('click', function(event) {
+			event.preventDefault();
+			$(this).parent().parent().find('.media-details').slideToggle();
+	});
+}
+
 $(document).ready(function() {
 	var miejsce = $(".monitorowanie-kampanii .container .stworzone-kampanie");
 	// zapytania GET na listę kampanii reklamowych 
@@ -47,22 +54,34 @@ $(document).ready(function() {
 			// usuwamy box alert-info, zostawiamy alert-error jeśli wystąpił błąd
 			$(".alert-info").alert('close');
 			console.log("request completed");
+			
 		},
 		success: function(data) {
 			$.each(data, function(index, item){				
 				// tworzymy szkielet html do którego będą wrzucone dane z GET
 				var htmlString = "";
-				htmlString += '<div class="row-fluid" data-id-kampanii="'+ item._id.$id + '" >';
-				htmlString += '<li class="media well well-small span6 nazwa-kampanii">';
-				htmlString += '<h2 class="text-info">' + item.name + '</h2>';
-				htmlString += '<p class=" ">' + item.text + '</p>';
+				htmlString += '<li class="media row-fluid" data-id-kampanii="'+ item._id.$id + '"' + 'data-nazwa-kampanii="'+ item.name + '"' +  '>';
+				htmlString += 	'<div class="span7 well-campaign">';
+				htmlString += 		'<div class="pull-left">';
+				htmlString += 			'<img class="media-object" src="/uploads/' + item.path + '"' + '</img>';
+				htmlString += 		'</div>';
+				htmlString += 		'<div class="media-body">';
+				htmlString += 			'<h1>' + item.name +  '</h1>';
+				htmlString += 		'</div>';
+				htmlString += 		'<div class="media-details">';
+				htmlString += 			'<p class="lead">' + item.text +  '</p>';
+				htmlString += 		'</div>';
+				htmlString += 		'<div class="media-buttons">';
+				htmlString += 			'<a href="#" class="pull-left pokaz-szczegoly" alt=""><i class="icon-comment"></i>Pokaż szczegóły</a>';
+				htmlString += 			'<a href="#" class="pull-right usun-kampanie" alt=""><i class="icon-trash"></i>Usuń kampanię</a>';
+				htmlString += 		'</div>';
+				htmlString += 	'</div>';
 				htmlString += '</li>';
-				htmlString += '<button class="btn btn-danger" type="submit">Usuń kampanię</button>';
-				htmlString += '</div';
 				miejsce.append(htmlString);
 			});
 			$(".alert").alert('close')
 			dodajEfektyWizualneDoKampanii();
+			dodajWyswietlanieSzczegolow();
 			console.log("wszystko poszło wg planu");
 		}
 	});
