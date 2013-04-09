@@ -119,12 +119,12 @@ $(document).ready(function() {
 		success: function(data) {
 			$.each(data, function(index, item){
 
-<<<<<<< HEAD
+
 	// url dla serwera + link do pliku JSON z kampaniami
 	$.getJSON('http://q4.maszyna.pl/api/adds', function (data){
 		$.each(data, function(index, item){				
 			// tworzymy szkielet html do którego będą wrzucone dane z GET
-=======
+
 				jsonObj.campaigns.push({
 					"id" : item._id.$id,
 					"name": item.name
@@ -156,12 +156,9 @@ $(document).ready(function() {
 		
 			// obiekt json, w którym przechowujemy informacje o kampaniach, id + nazwa
 			// dzięku temu w filtrowaniu posłużymy się id do ukrywania
-<<<<<<< HEAD
->>>>>>> zapytania
+
 			
 			// _json = JSON.stringify(jsonObj);
-=======
->>>>>>> zapytania
 			fuzzyS(jsonObj);
 		}
 	});
