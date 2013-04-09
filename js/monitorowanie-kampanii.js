@@ -117,14 +117,7 @@ $(document).ready(function() {
 			console.log("request completed");
 		},
 		success: function(data) {
-			$.each(data, function(index, item){
-
-
-	// url dla serwera + link do pliku JSON z kampaniami
-	$.getJSON('http://q4.maszyna.pl/api/adds', function (data){
-		$.each(data, function(index, item){				
-			// tworzymy szkielet html do którego będą wrzucone dane z GET
-
+			$.each(data, function(index, item){		
 				jsonObj.campaigns.push({
 					"id" : item._id.$id,
 					"name": item.name
@@ -161,5 +154,6 @@ $(document).ready(function() {
 			// _json = JSON.stringify(jsonObj);
 			fuzzyS(jsonObj);
 		}
-	});
+	
+});
 });
