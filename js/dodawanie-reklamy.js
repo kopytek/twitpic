@@ -63,6 +63,63 @@ var dodajWyswietlanieSzczegolow = function() {
 	});
 }
 
+/*	funkcja, która dodaje event do przycisku tak by móc śledzić klik na button
+		i wywołać właściwą funkcję
+
+		funkcja te wywołuje właściwa funkcję do usuwania rekordu, wysyła cały div 
+		z reklamą
+*/
+function usunWybranaReklameButton() {
+	$(".reklama-item .usun-reklame").on('click', function(event) {
+		event.preventDefault();
+		usunWybranaReklame($(this).parent().parent());
+		console.log($(this));
+	});	
+}
+
+/*	funkcja, która pozwala na usunięcie wybranej reklamy przez użytkownika */
+function usunWybranaReklame(el) {
+	var id_el = el.attr("data-id-reklamy");
+	console.log(id_el);
+
+	// GET /api/adds/delete/{id}
+	$.ajax({
+		url: 'http://q4.maszyna.pl/api/adds/delete/' + id_el,
+		type: 'get',
+		dataType: 'json',
+
+		error: function(){
+			// var errorBox = "";
+			// errorBox += '<div class="alert alert-error">';
+   //    errorBox += 	'<h4><strong>Nie udało się pobrać informacji z serwera, wystąpił błąd.</strong></h4>';
+   //  	errorBox += '</div>';
+   //  	alertBox.append(errorBox);
+			console.log("error");				
+		},
+		beforeSend: function() {
+			// var infoBox = "";
+			// infoBox += '<div class="alert alert-info">';
+   //  	infoBox += 	'<h4><strong>Trwa pobieranie informacji z serwera, proszę czekać.</strong></h4>';
+   //  	infoBox += '</div>';
+   //  	alertBox.append(infoBox);
+			console.log("wysyłamy zapytanie");
+		},
+		complete: function() {
+			// usuwamy box alert-info, zostawiamy alert-error jeśli wystąpił błąd
+			// $(".alert-info").alert('close');
+			console.log("request completed");
+		},
+		success: function(data) {
+			// chowamy div a potem go usuwamy z listy
+			el.fadeOut(400, function() {
+				$(this).remove();
+			});
+			console.log("success fired@@");
+		}
+	});
+}
+
+
 /*	pobranie listy reklam z serwera */
 function pobierzListReklam() {
 	$.ajax({
@@ -115,6 +172,7 @@ function pobierzListReklam() {
 			});
 			$(".alert").alert('close');
 			dodajWyswietlanieSzczegolow();
+			usunWybranaReklameButton();
 		}
 	});
 	console.log("pobierzListReklam");
@@ -126,6 +184,7 @@ $(document).ready(function() {
 	validacjaTextarea();
 	validacjaNazwyReklamy();
 	
+
 	/* tworzenie reklamy */
 	$("#stworz-reklame-button").on('click', function() {
 		/* tworzymy reklamę, POST na /api/adds */
