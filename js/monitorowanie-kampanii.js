@@ -33,13 +33,20 @@ function fuzzyS(campaigns) {
 		} else {
 			// response nie jest pusty, ukrywamy elementy bo zostało coś znalezione
 			$.each(result, function(i, item) {
-				console.log(item);
+				console.log(i,item);
 
 				// if ($("ul.stworzone-kampanie li").not("[data-id-kampanii*=" + item + "]")) {
 				// 	$(this).hide();
 				// } else { $(this).show(); }
+				// $("ul.stworzone-kampanie li").each(function() { 
+					if ($("ul.stworzone-kampanie li:nth-child(" +i + ")").attr("data-id-kampanii") != item) {
+						// id li nie jest równe fuzzy search
+						$(this).hide();
+					}
 
-				$("ul.stworzone-kampanie li").not("[data-id-kampanii*=" + item + "]").hide();
+				// });
+
+				// $("ul.stworzone-kampanie li").not("[data-id-kampanii*=" + item + "]").hide();
 
 				// $.each($("ul.stworzone-kampanie li"), function() {
 				// 	if ($(this).is(":hidden") && ($(this).attr("data-id-kampanii") == item)) {
@@ -143,17 +150,14 @@ $(document).ready(function() {
 				htmlString += '</li>';
 				miejsce.append(htmlString);
 			});
-			$(".alert").alert('close')
+			$(".alert").alert('close');
 			dodajEfektyWizualneDoKampanii();
 			dodajWyswietlanieSzczegolow();
 		
 			// obiekt json, w którym przechowujemy informacje o kampaniach, id + nazwa
-			// dzięku temu w filtrowaniu posłużymy się id do ukrywania
-
-			
-			// _json = JSON.stringify(jsonObj);
-			fuzzyS(jsonObj);
+			// dzięku temu w filtrowaniu posłużymy się id do ukrywania	
+				// fuzzyS(jsonObj);
 		}
-	
-});
+	});
+	fuzzyS(jsonObj);
 });

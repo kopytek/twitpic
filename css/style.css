@@ -146,6 +146,10 @@ section[class*="etap"] span.badge {
 		    box-shadow: 1px 2px 6px rgba(0,0,0,.4);
 
 }
+.etap-pierwszy,
+.etap-drugi {
+	padding-bottom: 2em;
+}
 .etap-pierwszy textarea {
 	font-size: 18px;
 	line-height: 1.45;
@@ -161,6 +165,13 @@ section[class*="etap"] span.badge {
 	height: 34px !important;
 	font-size: 16px;
 	line-height: 1.4;
+}
+.etap-trzeci fieldset,
+.etap-trzeci .form-actions {
+	width: 100%;
+}
+.etap-trzeci .form-actions button + button {
+	margin-right: 1em;
 }
 /*  
 	chcemy się pozbyć marginesu dla pierwszego obrazka,
@@ -259,15 +270,16 @@ by pokazać wybór zdjęć / kont*/
 .filtrowanie-buttons {
 	margin-top: 1em;
 }
-
+ul.stworzone-kampanie li {
+	min-height: 213px !important;
+}
 /* musimy wywalić marginesy dla pewnych elementów na liście */
 ul.stworzone-kampanie li:nth-child(2n+1) {
-	margin-left: 0;
+	margin-left: 0 !important;
 }
 ul.stworzone-kampanie li:nth-child(2) {
-	margin-top: 0;
+	margin-top: 0 !important;
 }
-
 .well-campaign h1 {
 	color: #666;
 }

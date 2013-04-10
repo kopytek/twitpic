@@ -47,4 +47,40 @@ $(document).ready(function() {
 		checkEtapy();
 	});
 
-});
+	$("#stworz-reklame-button").on('click', function() {
+		/* tworzymy reklamę, POST na /api/adds */
+	  $('#fileupload').fileupload({
+	    dataType: 'json',
+	    type:     'POST',
+	    url:      "http://q4.maszyna.pl/api/adds",
+	    formData: {
+	      'name': $('#nazwaReklamy').val(),
+	      'text': $('#wiadomoscDoWyslania').val()
+	    },
+	    add: function (e, data) {
+	      data.context = $('#stworz-reklame-button');
+	      $("#commercial_create_form").unbind('submit');
+	      $("#commercial_create_form").submit(function(){
+	        data.submit();
+	        return false; 
+	      });   
+	    },
+	    done: function (e, data) {
+	      console.log(data);
+	      if(data.result && data.result.files) {
+	        $.each(data.result.files, function (index, file) {
+	          $('#commercial_create_form fieldset').append('<div class="alert alert-info"><button type="button" class="close" data-dismiss="alert">&times;</button><strong>Dodano:</strong> '+file.name+'</div>');
+	        });
+	      }
+	      else {
+	        $('#commercial_create_form fieldset').prepend('<div class="alert alert-error"><button type="button" class="close" data-dismiss="alert">&times;</button><strong>Blad\' !</strong> Zła odpowiedź</div>');
+	      }
+	    },
+	    fail: function(e, data) {
+	      $('#commercial_create_form fieldset').prepend('<div class="alert alert-error"><button type="button" class="close" data-dismiss="alert">&times;</button><strong>Blad\' !</strong> niczego nie wgrałem</div>');
+	    }
+	  });
+	});
+	
+    
+}); //end of document.ready()
