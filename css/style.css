@@ -198,6 +198,16 @@ section[class*="etap"] span.badge {
 
 /*	WYSWIETLANIE REKLAM	 */
 
+.wyswietlanie-reklam [contenteditable="true"] {
+	border: none;
+	outline: none;
+
+	background-color: rgba(224,221,68,.6);;
+}
+.wyswietlanie-reklam [contenteditable="true"]:hover {
+	background-color: rgba(224,221,68,1);;
+}
+
 .wyswietlanie-reklam h3,
 .wyswietlanie-reklam .alert-box {
 	margin-left: 1em;
@@ -254,7 +264,7 @@ section[class*="etap"] span.badge {
 	left: 0;
 	width: 100%;
 	float: left;
-	display: none;
+	display: block;
 }
 .well-custom .media-buttons {
 	position: relative;
@@ -287,7 +297,7 @@ section[class*="etap"] span.badge {
 .well-custom .media-buttons a:hover {
 	background-color: rgba(0, 0, 0, .1);
 }
-.well-custom .media-buttons a.pokaz-szczegoly {
+.well-custom .media-buttons a.edytuj-reklame {
 	width: 60%;
 	text-align: center;
 	border-left: none;

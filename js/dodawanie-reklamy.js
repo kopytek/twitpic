@@ -56,12 +56,12 @@ var checkEtapy = function() {
 }
 
 /*	osbługa przycisku pokaż szczegóły dla reklam */
-var dodajWyswietlanieSzczegolow = function() {
-	$(".pokaz-szczegoly").on('click', function(event) {
-			event.preventDefault();
-			$(this).parent().parent().find('.media-details').slideToggle();
-	});
-}
+// var dodajWyswietlanieSzczegolow = function() {
+// 	$(".pokaz-szczegoly").on('click', function(event) {
+// 			event.preventDefault();
+// 			$(this).parent().parent().find('.media-details').slideToggle();
+// 	});
+// }
 
 /*	funkcja, która dodaje event do przycisku tak by móc śledzić klik na button
 		i wywołać właściwą funkcję
@@ -69,7 +69,7 @@ var dodajWyswietlanieSzczegolow = function() {
 		funkcja te wywołuje właściwa funkcję do usuwania rekordu, wysyła cały div 
 		z reklamą
 */
-function usunWybranaReklameButton() {
+function dodajMozliwoscUsuwania() {
 	$(".reklama-item .usun-reklame").on('click', function(event) {
 		event.preventDefault();
 		usunWybranaReklame($(this).parent().parent());
@@ -119,6 +119,34 @@ function usunWybranaReklame(el) {
 	});
 }
 
+/*	funkcja, która dodaje event pozwalający na edytowanie reklamy */
+function dodajMozliwoscEdycji() {
+	$(".reklama-item .edytuj-reklame").on('click', function(event) {
+		event.preventDefault();
+		edytujWybranaReklame($(this).parent().parent());
+		// console.log($(this));
+	});	
+}
+/* edytujemy wybraną reklamę, zmiany musimy ponownie wysłać na serwer */
+function edytujWybranaReklame(el) {
+	console.log(el);
+
+	// ustawiamy contenteditable na true
+	el.find('.media-body').attr('contenteditable', 'true');
+	el.find('.media-details').attr('contenteditable', 'true');
+
+
+	// to do 
+
+	// icon-ok
+	// var ed = $('.edytuj-reklame').first();
+		// ed.html();
+		// zwróci wszystko co zawiera ed
+		// potem trzeba to zastąpic => zmiana ikony i textu (zapisz zmiany)
+		// trzeba pomyslec o odrzuceniu zmian rowniez 
+		// dodac pomocnicze funkcje dla tego shitu
+		// osobna funkcja na update moze?
+}
 
 /*	pobranie listy reklam z serwera */
 function pobierzListReklam() {
@@ -164,15 +192,16 @@ function pobierzListReklam() {
 				htmlString += 			'<p class="lead">' + item.text +  '</p>';
 				htmlString += 		'</div>';
 				htmlString += 		'<div class="media-buttons">';
-				htmlString += 			'<a href="#" class="pull-left pokaz-szczegoly" alt=""><i class="icon-comment"></i>Pokaż szczegóły</a>';
+				htmlString += 			'<a href="#" class="pull-left edytuj-reklame" alt=""><i class="icon-edit"></i>Edytuj reklamę</a>';
 				htmlString += 			'<a href="#" class="pull-right usun-reklame" alt=""><i class="icon-trash"></i>Usuń reklamę</a>';
 				htmlString += 		'</div>';
 				htmlString += '</div>';
 				miejsce.append(htmlString);
 			});
 			$(".alert").alert('close');
-			dodajWyswietlanieSzczegolow();
-			usunWybranaReklameButton();
+			// dodajWyswietlanieSzczegolow();
+			dodajMozliwoscEdycji();
+			dodajMozliwoscUsuwania();
 		}
 	});
 	console.log("pobierzListReklam");
