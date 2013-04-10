@@ -78,6 +78,7 @@ footer {
 }
 .lista-kont, 
 .tworzenie-kampanii,
+.tworzenie-reklamy,
 .monitorowanie-kampanii,
 .wyswietlanie-reklam {
 	margin-bottom: 4em;
@@ -133,8 +134,11 @@ a.link-home:active {
 .dodawanie-reklam ul.nav.nav-tabs {
 	margin-left: -146px;
 }
-.dodawanie-reklam .tabs-left > .nav-tabs {
+.dodawanie-reklam .nav-tabs {
 	margin-right: 0;
+}
+.tworzenie-reklamy {
+	padding: 0 1em;
 }
 section[class*="etap"] {
 	border-bottom: 2px solid #eee;
@@ -193,6 +197,11 @@ section[class*="etap"] span.badge {
 }
 
 /*	WYSWIETLANIE REKLAM	 */
+
+.wyswietlanie-reklam h3,
+.wyswietlanie-reklam .alert-box {
+	margin-left: 1em;
+}
 
 .lista-reklam {
 	-webkit-column-count: 2;
@@ -283,7 +292,7 @@ section[class*="etap"] span.badge {
 	text-align: center;
 	border-left: none;
 }
-.well-custom .media-buttons a.usun-kampanie {
+.well-custom .media-buttons a.usun-reklame {
 	width: 40%;
 }
 
