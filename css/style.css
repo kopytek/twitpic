@@ -19,6 +19,13 @@
 			- jumbotron
 		03 Dodawanie kont
 		04 Dodawanie reklamy
+			- tworzenie reklamy
+				- etap-pierwszy
+				- etap-drugi
+				- etap-trzeci
+			- wyswietlanie reklam
+				- update
+				- deletes
 		05 Tworzenie kampanii
 			- etap-pierwszy
 			- etap-drugi
@@ -69,9 +76,9 @@ footer {
 	box-shadow: 0 -1px 1px #bbb;
 }
 .lista-kont, 
-.tworzenie-reklamy,
 .tworzenie-kampanii,
-.monitorowanie-kampanii {
+.monitorowanie-kampanii,
+.wyswietlanie-reklam {
 	margin-bottom: 4em;
 }
 
@@ -156,10 +163,6 @@ section[class*="etap"] span.badge {
 	width: 100%; /* kontener, w którym jest textarea 
 					będzie definiować jego długość */
 }
-.tworzenie-reklamy .etap-trzeci {
-	/*mały margines dolny by było więcej miejsca*/
-	margin-bottom: 2em;
-}
 .nazwa-reklamy-input {
 	/* powiększamy lekko input*/
 	height: 34px !important;
@@ -181,6 +184,90 @@ section[class*="etap"] span.badge {
 .row-fluid [class*="span"]:nth-child(4n+1):not(.no-margin-left) {
 	/*margin-left: 0;*/
 }
+
+/*	WYSWIETLANIE REKLAM	 */
+
+/* lekkko zmieniony well udostępniony przez bootstrap */
+.well-custom {
+	background-color: rgba(0,0,0,.03);
+	border: 1px solid rgba(0,0,0,.15);
+	
+	-webkit-border-radius: 2px;
+	   -moz-border-radius: 2px;
+			border-radius: 2px;
+	-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+	   -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+			box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+}	
+ul.lista-reklam li {
+	/*min-height: 213px !important;*/
+}
+/* musimy wywalić marginesy dla pewnych elementów na liście */
+ul.lista-reklam li:nth-child(2n+1) {
+	margin-left: 0 !important;
+}
+ul.lista-reklam li:nth-child(2) {
+	margin-top: 0 !important;
+}
+.well-custom h1 {
+	color: #666;
+}
+.well-custom .img-holder,
+.well-custom .media-body,
+.well-custom .media-details {
+	padding: 1em;
+}
+/* obrazek musi być w jakimś zewnętrznym 'pudełku', który będzie miał ustalony width*/
+.well-custom .img-holder{
+
+}
+.well-custom .media-details{
+	position: relative;
+	left: 0;
+	width: 100%;
+	float: left;
+	display: none;
+}
+.well-custom .media-buttons {
+	position: relative;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	background-color: rgba(0, 0, 0, .06);
+	float: left;
+
+	border-top: 1px solid rgba(0,0,0,.15);
+}
+.well-custom .media-buttons i {
+	width: 16px;
+	-webkit-transform: scale(1.1);
+	   -moz-transform: scale(1.1);
+		    transform: scale(1.1);
+}
+.well-custom .media-buttons a {
+	color: #999;
+	border-left: 1px solid rgba(0, 0, 0, .15);
+	padding: .8em;
+	text-decoration: none;
+
+	-webkit-transition: all 0.2s ease-in-out;
+	   -moz-transition: all 0.2s ease-in-out;
+	     -o-transition: all 0.2s ease-in-out;
+			transition: all 0.2s ease-in-out;
+}
+.well-custom .media-buttons a:focus, 
+.well-custom .media-buttons a:hover {
+	background-color: rgba(0, 0, 0, .1);
+}
+.well-custom .media-buttons a.pokaz-szczegoly {
+	width: 60%;
+	text-align: center;
+	border-left: none;
+}
+.well-custom .media-buttons a.usun-kampanie {
+	width: 40%;
+}
+
 
 
 /*	========================================

@@ -102,58 +102,46 @@
             <p class="lead">
               Jeżeli wykonałeś wcześniejsze kroki wybierz przycisk "Stwórz reklamę" w celu utworzenia reklamy.
             </p>
-            
                 <div class="form-actions btn-group pull-right">            
                   <button class="btn btn-large btn-success disabled pull-right" type="submit" id="stworz-reklame-button">Stwórz reklamę</button>
                   <button type="reset" class="btn btn-large pull-right">Resetuj</button>
-                </div>
-             
+                </div>          
           </div>
           </section> <!-- etap-trzeci -->
          </fieldset>
         </form>
-        <script type="text-javascript">
-        $(function () {
-        $('#fileupload').fileupload({
-      dataType: 'json',
-      type:     'POST',
-      url:      "http://q4.maszyna.pl/api/adds",
-      formData: {
-        'name': $('#nazwaReklamy').val(),
-        'text': $('#wiadomoscDoWyslania').val()
-      },
-      add: function (e, data) {
-        data.context = $('#stworz-reklame-button');
-        $("#commercial_create_form").unbind('submit');
-        $("#commercial_create_form").submit(function(){
-          data.submit();
-          return false; 
-        });   
-      },
-      done: function (e, data) {
-        console.log(data);
-        if(data.result && data.result.files) {
-          $.each(data.result.files, function (index, file) {
-            $('#commercial_create_form fieldset').append('<div class="alert alert-info"><button type="button" class="close" data-dismiss="alert">&times;</button><strong>Dodano:</strong> '+file.name+'</div>');
-          });
-        }
-        else {
-          $('#commercial_create_form fieldset').prepend('<div class="alert alert-error"><button type="button" class="close" data-dismiss="alert">&times;</button><strong>Blad\' !</strong> Zła odpowiedź</div>');
-        }
-      },
-      fail: function(e, data) {
-        $('#commercial_create_form fieldset').prepend('<div class="alert alert-error"><button type="button" class="close" data-dismiss="alert">&times;</button><strong>Blad\' !</strong> niczego nie wgrałem</div>');
-      }
-    });
-  });
-  </script>
       </section> <!--  tworzenie-reklamy  -->
+      <section class="container wyswietlanie-reklam"><!-- wyswietlanie-reklam -->
+        <hr>
+        <h3>Lista stworzonych reklam</h3>
+        <div class="alert-box">
+        </div>
+        <ul class="lista-reklam row-fluid">
+          <li class="media span6" data-nazwa-kampanii="Słoneczko">
+            <div class="span12 well-custom">
+              <div class="span12 img-holder">
+                <img class="media-object" src="img/">
+              </div>
+              <div class="media-body">
+                <h1> Hello </h1>
+              </div>
+              <div class="media-details">
+                <p>Tu będą wyświetlane szczegóły.</p>
+              </div>
+              <div class="media-buttons">
+                <a href="#" class="pull-left pokaz-szczegoly" alt=""><i class="icon-comment"></i>Pokaż szczegóły</a>
+                <a href="#" class="pull-right usun-kampanie" alt=""><i class="icon-trash"></i>Usuń kampanię</a>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </section>
     </div>
     <footer id="footer" class="navbar-bottom">
       <div class="container footer">
         <p class="muted text-center">
           Powered by <a href="http://twitter.github.com/bootstrap/" title="Twitter Bootstrap" alt="Twitter Bootstrap">Bootstrap</a>
-          <!-- , <a href="http://bootswatch.com/readable/" title="Readable Theme" alt="Readable Theme">Readable</a> theme from <a href="http://bootswatch.com/" title="Bootswatch.com" alt="Bootswatch.com">Bootswatch.com</a> -->
+          <!-- , <a href="http://bootswatch.com/readable/" title="Readable Theme" alt="Readable Theme">Readable</a> theme from <a href="http://bootswatch.com/" title="Bootswatch.com" alt="Bootswatch.com">Bootswatch.com</a>
         </p>
       </div>
     </footer>
