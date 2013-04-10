@@ -48,7 +48,19 @@
           <hr>
         </div>
       </section>
-      <section class="tworzenie-reklamy container">
+      <div class="tabbable tabs-left container dodawanie-reklam">
+        <ul class="nav nav-tabs">
+          <li class="active">
+            <a href="#tworzenie-reklamy-tab" data-toggle="tab">Tworzenie reklamy</a>
+          </li>
+          <li class="">
+            <a href="#lista-reklam-tab" data-toggle="tab">Lista reklam</a>
+          </li>
+        </ul>
+        <div class="tab-content">
+          <!-- TWORZENIE REKLAMY SECTION -->  
+          <div class="tab-pane active" id="tworzenie-reklamy-tab">
+            <section class="tworzenie-reklamy container">  <!--  tworzenie-reklamy  -->
         <form id="commercial_create_form" method="post" action="http://q4.maszyna.pl/api/adds" enctype="multipart/form-data">
         <fieldset>
         <section class="etap-pierwszy row-fluid"> <!-- etap-pierwszy -->
@@ -111,7 +123,11 @@
          </fieldset>
         </form>
       </section> <!--  tworzenie-reklamy  -->
-      <section class="container wyswietlanie-reklam"><!-- wyswietlanie-reklam -->
+          </div>
+
+          <!-- LISTA REKLAM SECTION -->  
+          <div class="tab-pane" id="lista-reklam-tab">
+            <section class="container wyswietlanie-reklam"><!-- wyswietlanie-reklam -->
         <hr>
         <h3>Lista stworzonych reklam</h3>
         <div class="alert-box">
@@ -134,6 +150,11 @@
           </div> -->
         </div> <!-- lista-reklam -->
       </section> <!-- wyswietlanie-reklam -->
+          </div>
+        </div>
+      </div>
+      
+      
     </div>
     <footer id="footer" class="navbar-bottom">
       <div class="container footer">

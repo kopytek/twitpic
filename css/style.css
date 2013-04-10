@@ -19,6 +19,7 @@
 			- jumbotron
 		03 Dodawanie kont
 		04 Dodawanie reklamy
+			- tabs
 			- tworzenie reklamy
 				- etap-pierwszy
 				- etap-drugi
@@ -129,6 +130,12 @@ a.link-home:active {
 	========================================
 */
 
+.dodawanie-reklam ul.nav.nav-tabs {
+	margin-left: -146px;
+}
+.dodawanie-reklam .tabs-left > .nav-tabs {
+	margin-right: 0;
+}
 section[class*="etap"] {
 	border-bottom: 2px solid #eee;
 }
