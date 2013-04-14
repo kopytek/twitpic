@@ -165,7 +165,6 @@ function dodajMozliwoscEdycji() {
 function dodajZapisanieZmian(el, edit) {
 	edit.find('.zapisz-zmiany').on('click', function(event) {
 		event.preventDefault();
-		
 		// wysyłamy zmodyfikowaną reklamę na serwer
 		wyslijReklameNaSerwer(el);
 	 	// ustawiamy contenteditable na false
