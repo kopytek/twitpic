@@ -175,7 +175,8 @@ section[class*="etap"] span.badge {
 	width: 100%; /* kontener, w którym jest textarea 
 					będzie definiować jego długość */
 }
-.nazwa-reklamy-input {
+.nazwa-reklamy-input,
+.nazwa-kampanii-input {
 	/* powiększamy lekko input*/
 	height: 34px !important;
 	font-size: 16px;
