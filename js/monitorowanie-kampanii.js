@@ -25,39 +25,31 @@ function fuzzyS(campaigns) {
 		var f = new Fuse(campaigns.campaigns, options);
 		var result = f.search(input.val());
 	
-		console.log(result);
-
 		// jeśli jest pusty response to pokazujemy wszystkie elementy na liscie 
 		if (result.length == 0 ) {
 			$("ul.stworzone-kampanie li").show();
 		} else {
-			// response nie jest pusty, ukrywamy elementy bo zostało coś znalezione
-			$.each(result, function(i, item) {
-				console.log(i,item);
+			// response nie jest pusty, ukrywamy / pokazujemy elementy bo zostało coś znalezione
+			$lista = $('.stworzone-kampanie li.media');
+			
+			// przechodzimy po kolei po wszystkich elementach listy
+			$.each($lista, function(el) {
+				znaleziony = false;
+				// ustawiamy id danej kampanii 
+				$id =  $(this).attr('data-id-kampanii');
+				// przechodzimy przez wszystkie wyniki z Fuse
+				$.each(result, function(i,item) {
+					if ($id === item) { 
+						// element znaleziony
+						znaleziony = true;
+				 	}	
+				});
 
-				// if ($("ul.stworzone-kampanie li").not("[data-id-kampanii*=" + item + "]")) {
-				// 	$(this).hide();
-				// } else { $(this).show(); }
-				// $("ul.stworzone-kampanie li").each(function() { 
-					if ($("ul.stworzone-kampanie li:nth-child(" +i + ")").attr("data-id-kampanii") != item) {
-						// id li nie jest równe fuzzy search
-						$(this).hide();
-					}
-
-				// });
-
-				// $("ul.stworzone-kampanie li").not("[data-id-kampanii*=" + item + "]").hide();
-
-				// $.each($("ul.stworzone-kampanie li"), function() {
-				// 	if ($(this).is(":hidden") && ($(this).attr("data-id-kampanii") == item)) {
-				// 		// el jest ukryty i pasuje do wyszukiwania => pokazujemy
-				// 		$(this).show();
-				// 	} else { 
-				// 		// $(this).hide(); 
-				// 	}
-				// });
-					
-			});
+				// jeśli element został znaleziony to go pokazujemy, inaczej hide
+				if (znaleziony) { 
+					$(this).show();
+				} else { $(this).hide(); }
+			}); 
 		}	
 	}
 
@@ -97,6 +89,7 @@ $(document).ready(function() {
 	var alertBox = $(".monitorowanie-kampanii .alert-box");
 	var miejsce = $(".monitorowanie-kampanii .container .stworzone-kampanie");
 	// zapytania GET na listę kampanii reklamowych 
+	
 	$.ajax({
 		url: 'http://q4.maszyna.pl/api/adds',
 		type: 'get',
