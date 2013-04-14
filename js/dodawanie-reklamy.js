@@ -9,7 +9,8 @@ var b1 = false, // etap-pierwszy textarea test
 		etap_pierwszy = $(".etap-pierwszy textarea"),
 		etap_trzeci_input = $(".etap-trzeci .nazwa-reklamy-input"),
 		alertBox = $(".wyswietlanie-reklam .alert-box"),
-		miejsce = $(".wyswietlanie-reklam .lista-reklam");
+		miejsce = $(".wyswietlanie-reklam .lista-reklam"),
+		testWysylania = true;
 
 
 /*	ilość znaków dodawanych do zdjęcia jako komentarz jest ograniczona,
@@ -121,35 +122,43 @@ function usunWybranaReklame(el) {
 
 /*	funkcja, która wysyła reklame na serwer */
 function wyslijReklameNaSerwer(el) {
-	console.log("wysyłamy reklamę");
 
 	$id = el.attr("data-id-reklamy");
 	$name = el.find('.media-body h1').html();
 	$text = el.find('.media-details p').html();
 
-	console.log($id, $name, $text);
+	// console.log($id, $name, $text);	
 
-	// $.ajax({
-	// 	url: 'http://q4.maszyna.pl/api/adds/' + id,
-	// 	type: 'post',
-	// 	dataType: 'json',
-	// 	data: {
-	// 		'name': ,
-	// 		'text': 
-	// 	},
-	// 	error: function(){
-	// 		console.log("error");				
-	// 	},
-	// 	beforeSend: function() {
-	// 		console.log("wysyłamy zapytanie");
-	// 	},
-	// 	complete: function() {
-	// 		console.log("request completed");
-	// 	},
-	// 	success: function(data) {		
-	// 		console.log("request success");
-	// 	}
-	// });
+	// ten if to taki 'zamek' (mutex)
+	// przed wysłaniem ustawiamy testWysylania na false
+	// po tym jak zapytanie się wyknało zmieniamy na true
+	if (testWysylania) {
+		$.ajax({
+			url: 'http://q4.maszyna.pl/api/adds/' + id,
+			type: 'post',
+			dataType: 'json',
+			data: {
+				'name': $name,
+				'text': $text
+			},
+			error: function(){
+				console.log("error");				
+			},
+			beforeSend: function() {
+				console.log("wysyłamy zapytanie");
+				testWysylania = false;
+			},
+			complete: function() {
+				console.log("request completed");
+				testWysylania = true;
+			},
+			success: function(data) {
+				// zamykamy alert-info
+				$(".alert-info").alert('close');		
+				console.log("request success");
+			}
+		});
+	}
 }
 
 /*	funkcja, która dodaje event pozwalający na edytowanie reklamy */
@@ -164,9 +173,7 @@ function dodajMozliwoscEdycji() {
 		w reklamie, wywołuje funkcję do wysyłania zmian na serwer */
 function dodajZapisanieZmian(el, edit) {
 	edit.find('.zapisz-zmiany').on('click', function(event) {
-		event.preventDefault();
-		// wysyłamy zmodyfikowaną reklamę na serwer
-		wyslijReklameNaSerwer(el);
+		event.preventDefault();		
 	 	// ustawiamy contenteditable na false
 		ustawContentEditable(el, false);
 		// pokazujemy defaultowy stan pasków z przyciskami
@@ -175,6 +182,8 @@ function dodajZapisanieZmian(el, edit) {
 	 	// zapisujemy w localStorage aktualna wersje reklamy 
 		zapiszReklameToLS(el);
 		dodajMozliwoscEdycji();
+		// wysyłamy zmodyfikowaną reklamę na serwer
+		wyslijReklameNaSerwer(el);
 	});	
 }
 
@@ -216,6 +225,23 @@ function wyczyscLS() {
 	localStorage.clear();
 }
 
+/*	funkcja, która tworzy box dla reklamy 
+		type
+			error
+			success
+			info 
+		content -> tresc boxa 
+*/
+function dodajInfoBox(el, type, content) {	
+	// usuwamy inne boxy jeśli istnieją
+	$(".lista-reklam .alert").alert('close');
+	var infoBox = "";
+			infoBox += '<div class="alert alert-' + type + '">';
+    	infoBox += 	'<h4><strong>' + content + '</strong></h4>';
+    	infoBox += '</div>';
+	el.after(infoBox);
+}
+
 /*	funkcja, która pozwala na ustawienie contenteditable, przysyłamy do niej 
 		true or false */ 
 function ustawContentEditable(el, bool) {
@@ -242,6 +268,9 @@ function edytujWybranaReklame(el) {
 	// dodajemy eventy do przyciskow
 	dodajZapisanieZmian(el, edit);
 	dodajOdrzucenieZmian(el, edit);
+
+	// dodajemy infoBox
+	dodajInfoBox(el, 'info', 'Pamiętaj by nie zostawić pustej nazwy reklamy ani tekstu reklamowego');
 }
 
 /*	pobranie listy reklam z serwera */
