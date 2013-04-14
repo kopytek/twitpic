@@ -119,33 +119,130 @@ function usunWybranaReklame(el) {
 	});
 }
 
+/*	funkcja, która wysyła reklame na serwer */
+function wyslijReklameNaSerwer(el) {
+	console.log("wysyłamy reklamę");
+
+	$id = el.attr("data-id-reklamy");
+	$name = el.find('.media-body h1').html();
+	$text = el.find('.media-details p').html();
+
+	console.log($id, $name, $text);
+
+	// $.ajax({
+	// 	url: 'http://q4.maszyna.pl/api/adds/' + id,
+	// 	type: 'post',
+	// 	dataType: 'json',
+	// 	data: {
+	// 		'name': ,
+	// 		'text': 
+	// 	},
+	// 	error: function(){
+	// 		console.log("error");				
+	// 	},
+	// 	beforeSend: function() {
+	// 		console.log("wysyłamy zapytanie");
+	// 	},
+	// 	complete: function() {
+	// 		console.log("request completed");
+	// 	},
+	// 	success: function(data) {		
+	// 		console.log("request success");
+	// 	}
+	// });
+}
+
 /*	funkcja, która dodaje event pozwalający na edytowanie reklamy */
 function dodajMozliwoscEdycji() {
 	$(".reklama-item .edytuj-reklame").on('click', function(event) {
 		event.preventDefault();
 		edytujWybranaReklame($(this).parent().parent());
-		// console.log($(this));
 	});	
 }
+
+/*	funkcja, która dodaje event pozwalający na zapisanie wprowadzonych zmian
+		w reklamie, wywołuje funkcję do wysyłania zmian na serwer */
+function dodajZapisanieZmian(el, edit) {
+	edit.find('.zapisz-zmiany').on('click', function(event) {
+		event.preventDefault();
+		
+		// wysyłamy zmodyfikowaną reklamę na serwer
+		wyslijReklameNaSerwer(el);
+	 	// ustawiamy contenteditable na false
+		ustawContentEditable(el, false);
+		// pokazujemy defaultowy stan pasków z przyciskami
+		el.find('.media-buttons.normal').show();
+	 	el.find('.media-buttons.edit').hide();
+	 	// zapisujemy w localStorage aktualna wersje reklamy 
+		zapiszReklameToLS(el);
+		dodajMozliwoscEdycji();
+	});	
+}
+
+/*	funkcja, która dodaje event pozwalający na odrzucenie zmian w reklamie */
+function dodajOdrzucenieZmian(el, edit) {
+	edit.find('.odrzuc-zmiany').on('click', function(event) {
+		event.preventDefault();
+		// pokazujemy defaultowy stan pasków z przyciskami
+		el.find('.media-buttons.normal').show();
+	 	el.find('.media-buttons.edit').hide();
+	 	// ustawiamy contenteditable na false
+		ustawContentEditable(el, false);
+		// przywracamy stan reklamy zapisany w localStorage
+		przywrocReklameFromLS(el);
+		dodajMozliwoscEdycji();
+	});	
+}
+
+
+/*	funkcja, która zapisuje reklamę do Local Storage */
+function zapiszReklameToLS(el) {
+	id = el.attr("data-id-reklamy");
+	if (localStorage.getItem(id)) {
+		localStorage.setItem(id,el.html());
+	}
+}
+
+/*	funkcja, która przywraca stan reklamy zapisany w Local Storage */
+function przywrocReklameFromLS(el) {
+	id = el.attr("data-id-reklamy");
+	// sprawdzamy czy istenieje kopia reklamy w localStorage
+	if (localStorage.getItem(id)) {
+		el.html(localStorage.getItem(id)); 
+	}
+}
+
+/*	funkcja, która usuwa dane z localStorage */
+function wyczyscLS() {
+	localStorage.clear();
+}
+
+/*	funkcja, która pozwala na ustawienie contenteditable, przysyłamy do niej 
+		true or false */ 
+function ustawContentEditable(el, bool) {
+	el.find('.media-body').attr('contenteditable', bool);
+	el.find('.media-details').attr('contenteditable', bool);
+}
+
 /* edytujemy wybraną reklamę, zmiany musimy ponownie wysłać na serwer */
 function edytujWybranaReklame(el) {
-	console.log(el);
-
+	id = el.attr("data-id-reklamy");
+	
+	// zapisujemy reklame do localStorage jeśli reklama nie jest jeszcze zapisana
+	if (!localStorage.getItem(id)) {
+		localStorage.setItem(id,el.html());
+	}	
+	
 	// ustawiamy contenteditable na true
-	el.find('.media-body').attr('contenteditable', 'true');
-	el.find('.media-details').attr('contenteditable', 'true');
+	ustawContentEditable(el, true);
 
-
-	// to do 
-
-	// icon-ok
-	// var ed = $('.edytuj-reklame').first();
-		// ed.html();
-		// zwróci wszystko co zawiera ed
-		// potem trzeba to zastąpic => zmiana ikony i textu (zapisz zmiany)
-		// trzeba pomyslec o odrzuceniu zmian rowniez 
-		// dodac pomocnicze funkcje dla tego shitu
-		// osobna funkcja na update moze?
+	// ukrywamy podstawowy pasek z przyciskami, pokazujemy ten do edycji reklamy
+	el.find('.media-buttons.normal').hide();
+	var edit = el.find('.media-buttons.edit').show();
+	
+	// dodajemy eventy do przyciskow
+	dodajZapisanieZmian(el, edit);
+	dodajOdrzucenieZmian(el, edit);
 }
 
 /*	pobranie listy reklam z serwera */
@@ -191,9 +288,13 @@ function pobierzListReklam() {
 				htmlString += 		'<div class="media-details">';
 				htmlString += 			'<p class="lead">' + item.text +  '</p>';
 				htmlString += 		'</div>';
-				htmlString += 		'<div class="media-buttons">';
+				htmlString += 		'<div class="media-buttons normal">';
 				htmlString += 			'<a href="#" class="pull-left edytuj-reklame" alt=""><i class="icon-edit"></i>Edytuj reklamę</a>';
 				htmlString += 			'<a href="#" class="pull-right usun-reklame" alt=""><i class="icon-trash"></i>Usuń reklamę</a>';
+				htmlString += 		'</div>';
+				htmlString += 		'<div class="media-buttons edit">';
+				htmlString += 			'<a href="#" class="pull-left zapisz-zmiany" alt=""><i class="icon-ok"></i>Zapisz zmiany</a>';
+				htmlString += 			'<a href="#" class="pull-right odrzuc-zmiany" alt=""><i class="icon-remove"></i>Odrzuć zmiany</a>';
 				htmlString += 		'</div>';
 				htmlString += '</div>';
 				miejsce.append(htmlString);
@@ -212,7 +313,7 @@ $(document).ready(function() {
 	pobierzListReklam();
 	validacjaTextarea();
 	validacjaNazwyReklamy();
-	
+	wyczyscLS();
 
 	/* tworzenie reklamy */
 	$("#stworz-reklame-button").on('click', function() {

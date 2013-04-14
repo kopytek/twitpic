@@ -35,7 +35,8 @@
 		06 Monitorowanie kampanii
 			- filtrowanie kampanii
 			- wyswietlanie miniatur kampanii
-		07 Media queries
+		07 Misc
+		08 Media queries
 		
 */
 
@@ -276,15 +277,19 @@ section[class*="etap"] span.badge {
 
 	border-top: 1px solid rgba(0,0,0,.15);
 }
+.well-custom .media-buttons.edit {
+	display: none;
+}
 .well-custom .media-buttons i {
 	width: 16px;
+	margin-right: 6px;
 	-webkit-transform: scale(1.1);
 	   -moz-transform: scale(1.1);
 		    transform: scale(1.1);
 }
 .well-custom .media-buttons a {
+	text-align: center;
 	color: #999;
-	border-left: 1px solid rgba(0, 0, 0, .15);
 	padding: .8em;
 	text-decoration: none;
 
@@ -298,12 +303,20 @@ section[class*="etap"] span.badge {
 	background-color: rgba(0, 0, 0, .1);
 }
 .well-custom .media-buttons a.edytuj-reklame {
-	width: 60%;
-	text-align: center;
+	width: 50%;
 	border-left: none;
 }
 .well-custom .media-buttons a.usun-reklame {
-	width: 40%;
+	border-left: 1px solid rgba(0, 0, 0, .15);
+	width: 50%;
+}
+.well-custom .media-buttons a.zapisz-zmiany,
+.well-custom .media-buttons a.odrzuc-zmiany {
+	width: 50%;
+}
+.well-custom .media-buttons a.odrzuc-zmiany {
+	border-left: 1px solid rgba(0, 0, 0, .15);
+
 }
 
 
@@ -474,6 +487,15 @@ ul.stworzone-kampanie li:nth-child(2) {
 
 /*	========================================
 	07 Media Queries
+	========================================
+*/
+
+.hidden {
+	display: none;
+}
+
+/*	========================================
+	08 Media Queries
 	========================================
 */
 
