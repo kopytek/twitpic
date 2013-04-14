@@ -190,8 +190,9 @@ function dodajZapisanieZmian(el, edit) {
 		$name = el.find('.media-body > *').text();
 		$text = el.find('.media-details > *').text();
 		
-		// sprawdzamy czy coś zostało wpisane
-		if ($name.length >=1 && $text.length >=1 ) {
+		// sprawdzamy czy coś zostało wpisane 
+		// tekst reklamy nie może być dłuższy niż 140 znakow
+		if ($name.length >=1 && $text.length >=1 && $text.length <= 139) {
 
 			// ustawiamy contenteditable na false
 			ustawContentEditable(el, false);
