@@ -124,8 +124,8 @@ function usunWybranaReklame(el) {
 function wyslijReklameNaSerwer(el) {
 
 	$id = el.attr("data-id-reklamy");
-	$name = el.find('.media-body h1').html();
-	$text = el.find('.media-details p').html();
+	$name = el.find('.media-body > *').html();
+	$text = el.find('.media-details > *').html();
 
 	// console.log($id, $name, $text);	
 
@@ -142,7 +142,11 @@ function wyslijReklameNaSerwer(el) {
 				'text': $text
 			},
 			error: function(){
-				console.log("error");				
+				console.log("error");
+				dodajInfoBox(el, 'error', 'Zmiany nie zostały zapisane, błąd wysłania danych!');
+				setTimeout(function() {
+					$(".alert-error").alert('close');
+				}, 2500);				
 			},
 			beforeSend: function() {
 				console.log("wysyłamy zapytanie");
@@ -154,7 +158,13 @@ function wyslijReklameNaSerwer(el) {
 			},
 			success: function(data) {
 				// zamykamy alert-info
-				$(".alert-info").alert('close');		
+				// $(".alert-info").alert('close');
+				dodajInfoBox(el, 'success', 'Zmiany zostały zapisane, reklama została zaktualizowana!');
+
+				setTimeout(function() {
+					$(".alert-success").alert('close');
+				}, 2000);
+
 				console.log("request success");
 			}
 		});
@@ -174,16 +184,30 @@ function dodajMozliwoscEdycji() {
 function dodajZapisanieZmian(el, edit) {
 	edit.find('.zapisz-zmiany').on('click', function(event) {
 		event.preventDefault();		
-	 	// ustawiamy contenteditable na false
-		ustawContentEditable(el, false);
-		// pokazujemy defaultowy stan pasków z przyciskami
-		el.find('.media-buttons.normal').show();
-	 	el.find('.media-buttons.edit').hide();
-	 	// zapisujemy w localStorage aktualna wersje reklamy 
-		zapiszReklameToLS(el);
-		dodajMozliwoscEdycji();
-		// wysyłamy zmodyfikowaną reklamę na serwer
-		wyslijReklameNaSerwer(el);
+
+		// dodajemy validacje, nie możemy pozwolić by ktoś wysłał reklamę
+		// bez nazwy albo tekstu reklamowego
+		$name = el.find('.media-body > *').text();
+		$text = el.find('.media-details > *').text();
+		
+		// sprawdzamy czy coś zostało wpisane
+		if ($name.length >=1 && $text.length >=1 ) {
+
+			// ustawiamy contenteditable na false
+			ustawContentEditable(el, false);
+			// pokazujemy defaultowy stan pasków z przyciskami
+			el.find('.media-buttons.normal').show();
+		 	el.find('.media-buttons.edit').hide();
+		 	// zapisujemy w localStorage aktualna wersje reklamy 
+			zapiszReklameToLS(el);
+			dodajMozliwoscEdycji();
+			// wysyłamy zmodyfikowaną reklamę na serwer
+			wyslijReklameNaSerwer(el);
+		} else {
+			// użytkownik zostawił jakieś pole puste, wyświetlamy box i nie wysyłamy reklamy
+			dodajInfoBox(el, 'error', 'Zostawiłeś puste pole, uzupełnij brakujący tekst!');
+		}
+	 	
 	});	
 }
 
@@ -198,6 +222,8 @@ function dodajOdrzucenieZmian(el, edit) {
 		ustawContentEditable(el, false);
 		// przywracamy stan reklamy zapisany w localStorage
 		przywrocReklameFromLS(el);
+		// usuwamy boxy jeśli istnieją
+		$(".lista-reklam .alert").alert('close');
 		dodajMozliwoscEdycji();
 	});	
 }
@@ -270,7 +296,7 @@ function edytujWybranaReklame(el) {
 	dodajOdrzucenieZmian(el, edit);
 
 	// dodajemy infoBox
-	dodajInfoBox(el, 'info', 'Pamiętaj by nie zostawić pustej nazwy reklamy ani tekstu reklamowego');
+	dodajInfoBox(el, 'info', 'Pamiętaj by nie zostawić pustej nazwy reklamy ani tekstu reklamowego.');
 }
 
 /*	pobranie listy reklam z serwera */
@@ -372,6 +398,9 @@ $(document).ready(function() {
 	      else {
 	        $('#commercial_create_form fieldset').prepend('<div class="alert alert-error"><button type="button" class="close" data-dismiss="alert">&times;</button><strong>Blad\' !</strong> Zła odpowiedź</div>');
 	      }
+
+	      // pobieramy ponownie listę reklam
+	      pobierzListReklam();	
 	    },
 	    fail: function(e, data) {
 	      $('#commercial_create_form fieldset').prepend('<div class="alert alert-error"><button type="button" class="close" data-dismiss="alert">&times;</button><strong>Blad\' !</strong> niczego nie wgrałem</div>');

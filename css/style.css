@@ -312,7 +312,7 @@ section[class*="etap"] span.badge {
 .well-custom .media-buttons a:hover {
 	background-color: rgba(0, 0, 0, .1);
 }
-.well-custom .media-buttons a.edytuj-reklame {
+.well-custom .media-buttons.normal a.edytuj-reklame {
 	width: 50%;
 	border-left: none;
 }
@@ -326,7 +326,6 @@ section[class*="etap"] span.badge {
 }
 .well-custom .media-buttons a.odrzuc-zmiany {
 	border-left: 1px solid rgba(0, 0, 0, .15);
-
 }
 
 
