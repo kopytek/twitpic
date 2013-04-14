@@ -1,24 +1,46 @@
+/*
+	tworzenie-kampanii.js
+*/
+
+var $lista_reklam = $('.lista-reklam-kampania'),
+	$miejsceNaInfoBox = $('section.reklamy');
+
+/*	funkcja, która dodaje event pozwalający na pokazanie szczegółów reklamy */
+function dodajWyswietlanieSzczegolow() {
+	$(".pokaz-szczegoly").on('click', function(event) {
+		event.preventDefault();
+		$(this).parent().parent().find('.media-details').slideToggle();
+		$(this).parent().parent().find('.media-body').slideToggle();
+	});
+}
+
+/*	funkcja, która tworzy box dla reklamy 
+		type -> error success info 
+		content -> tresc boxa 
+*/
+function dodajInfoBox(el, type, content) {	
+	// usuwamy inne boxy jeśli istnieją
+	$(".lista-reklam-kampania .alert").alert('close');
+	var infoBox = "";
+	infoBox += '<div class="alert alert-' + type + ' span12">';
+	infoBox += 	'<h4><strong>' + content + '</strong></h4>';
+	infoBox += '</div>';
+	el.append(infoBox);
+}
+
 /*	pobranie listy reklam z serwera */
-function pobierzListReklam() {
+function pobierzListReklam(el, infoBox) {
 	$.ajax({
 		url: 'http://q4.maszyna.pl/api/adds',
 		type: 'get',
 		dataType: 'json',
 
 		error: function(){
-			var errorBox = "";
-			errorBox += '<div class="alert alert-error">';
-      errorBox += 	'<h4><strong>Nie udało się pobrać informacji z serwera, wystąpił błąd.</strong></h4>';
-    	errorBox += '</div>';
-    	alertBox.append(errorBox);
+			dodajInfoBox(infoBox,'error', "Nie udało się pobrać informacji z serwera, wystąpił błąd.");
 			console.log("error");				
 		},
 		beforeSend: function() {
-			var infoBox = "";
-			infoBox += '<div class="alert alert-info">';
-    	infoBox += 	'<h4><strong>Trwa pobieranie informacji z serwera, proszę czekać.</strong></h4>';
-    	infoBox += '</div>';
-    	alertBox.append(infoBox);
+			dodajInfoBox(infoBox, 'info', 'Trwa pobieranie informacji z serwera, proszę czekać.');
 			console.log("wysyłamy zapytanie");
 		},
 		complete: function() {
@@ -41,28 +63,21 @@ function pobierzListReklam() {
 				htmlString += 		'<div class="media-details">';
 				htmlString += 			'<p class="lead">' + item.text +  '</p>';
 				htmlString += 		'</div>';
-				htmlString += 		'<div class="media-buttons normal">';
-				htmlString += 			'<a href="#" class="pull-left edytuj-reklame" alt=""><i class="icon-edit"></i>Edytuj reklamę</a>';
-				htmlString += 			'<a href="#" class="pull-right usun-reklame" alt=""><i class="icon-trash"></i>Usuń reklamę</a>';
-				htmlString += 		'</div>';
-				htmlString += 		'<div class="media-buttons edit">';
-				htmlString += 			'<a href="#" class="pull-left zapisz-zmiany" alt=""><i class="icon-ok"></i>Zapisz zmiany</a>';
-				htmlString += 			'<a href="#" class="pull-right odrzuc-zmiany" alt=""><i class="icon-remove"></i>Odrzuć zmiany</a>';
+				htmlString += 		'<div class="media-buttons">';
+				htmlString += 			'<a href="#" class="pull-left pokaz-szczegoly" alt=""><i class="icon-edit"></i>Pokaż szczegóły</a>';
 				htmlString += 		'</div>';
 				htmlString += '</div>';
-				miejsce.append(htmlString);
+				el.append(htmlString);
 			});
 			$(".alert").alert('close');
-			// dodajWyswietlanieSzczegolow();
-			dodajMozliwoscEdycji();
-			dodajMozliwoscUsuwania();
+			dodajWyswietlanieSzczegolow();
 		}
 	});
 	console.log("pobierzListReklam");
 }
 
 $(document).ready(function() {
-
-
+	// pobieramy listę reklam z serwera
+	pobierzListReklam($lista_reklam, $miejsceNaInfoBox);
 
 });
