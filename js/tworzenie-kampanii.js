@@ -5,6 +5,47 @@
 var $lista_reklam = $('.lista-reklam-kampania'),
 	$miejsceNaInfoBox = $('section.reklamy');
 
+
+/*	funkcja, która dodaje event pozwalający na dodanie efektu select dla kont */
+function dodajEfektyWizualneDlaKont() {
+	// sprawdzamy czy jakieś konta w ogóle istnieją
+	if (($(".etap-drugi ul.media-list").children().length) > 1) {
+		$lista_kont = $('.etap-drugi ul li'); 
+		$lista_kont.on('click', function(event) {
+			event.preventDefault();
+			$(this).toggleClass("selected");
+		});
+
+		$("#odznacz-wszystkie-konta").on('click', function(event) {
+			event.preventDefault();
+			$lista_kont.each(function() {
+				$(this).removeClass("selected");
+			});
+		});
+
+		$("#zaznacz-wszystkie-konta").on('click', function(event) {
+			event.preventDefault();
+			$lista_kont.each(function() {
+				$(this).addClass("selected");
+			});
+		});
+	} else {
+		$(".etap-drugi ul.media-list").append('<h2>Brak dodanych kont</h2><p class="lead">Nie zostały dodane jeszcze żadne konta, dodaj najpierw konto by móc stworzyć kampanię</p>');
+	}
+}
+
+/*	funkcja, która dodaje event pozwalający na dodanie efektu select do wybranej reklamy */
+function dodajEfektSelectDoReklam() {
+	$lista_reklam.children().on('click', function(event) {
+		event.preventDefault();
+		console.log('klikamy');
+		// pozwalamy by została tylko jedna reklama w tym momencie
+		// musimy usunąć klasę 'selected' i dodać ją do nowego itemu
+		$lista_reklam.find('.selected').removeClass('selected');
+		$(this).addClass('selected');
+	});
+}
+
 /*	funkcja, która dodaje event pozwalający na pokazanie szczegółów reklamy */
 function dodajWyswietlanieSzczegolow() {
 	$(".pokaz-szczegoly").on('click', function(event) {
@@ -71,6 +112,7 @@ function pobierzListReklam(el, infoBox) {
 			});
 			$(".alert").alert('close');
 			dodajWyswietlanieSzczegolow();
+			dodajEfektSelectDoReklam();
 		}
 	});
 	console.log("pobierzListReklam");
@@ -79,5 +121,6 @@ function pobierzListReklam(el, infoBox) {
 $(document).ready(function() {
 	// pobieramy listę reklam z serwera
 	pobierzListReklam($lista_reklam, $miejsceNaInfoBox);
+	dodajEfektyWizualneDlaKont();
 
 });

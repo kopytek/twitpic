@@ -233,7 +233,7 @@ section[class*="etap"] span.badge {
 	   -moz-column-break-inside: avoid;
 			column-break-inside: avoid;
 	margin: 1em;
-	min-width: 386px;
+	max-width: 386px;
 }
 
 .lista-reklam .alert {
@@ -242,7 +242,7 @@ section[class*="etap"] span.badge {
 	-moz-column-break-inside: avoid;
 	column-break-inside: avoid;
 	margin: 0 1em;
-	min-width: 386px;
+	max-width: 386px;
 }
 
 /* lekkko zmieniony well udostępniony przez bootstrap */
@@ -345,7 +345,10 @@ section.reklamy .alert {
 			column-gap: 1em;
 	-webkit-column-fill: auto;
 	   -moz-column-fill: auto;
-			column-fill: auto;	
+			column-fill: auto;
+
+	/* fx fix */
+	float: left;	
 }
 
 .lista-reklam-kampania .reklama-item {
@@ -355,6 +358,11 @@ section.reklamy .alert {
 	   -moz-column-break-inside: avoid;
 			column-break-inside: avoid;
 	margin-bottom: 1em;
+	/* fx fix */
+	max-width: 264px;
+}
+.lista-reklam-kampania .reklama-item:hover {
+	cursor: pointer;
 }
 .lista-reklam-kampania .reklama-item .media-body,
 .lista-reklam-kampania .reklama-item .media-details { 
@@ -363,6 +371,17 @@ section.reklamy .alert {
 .well-custom .media-buttons a.pokaz-szczegoly {
 	width: 100%;
 	border-left: none;
+}
+.lista-reklam-kampania .reklama-item.selected a{
+	color: #444;
+}
+
+.etap-drugi .media-list .media:hover {
+	cursor: pointer;
+}
+
+.tworzenie-kampanii .etap-trzeci {
+	margin-bottom: 2em;
 }
 /* pomocniczna klasa dla elementów, które zostały kliknięte i wybrane */
 .selected {
