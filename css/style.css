@@ -260,6 +260,19 @@ section[class*="etap"] span.badge {
 
 .well-custom h1 {
 	color: #666;
+
+	/* word-break, by css-tricks
+	http://css-tricks.com/almanac/properties/w/word-break/
+	*/	
+	-ms-word-break: break-all;
+     word-break: break-all;
+
+     /*	Non standard for webkit*/
+     word-break: break-word;
+
+	-webkit-hyphens: auto;
+	   -moz-hyphens: auto;
+	        hyphens: auto;
 }
 .well-custom .img-holder,
 .well-custom .media-body,
