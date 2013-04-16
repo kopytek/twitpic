@@ -3,14 +3,55 @@
 */
 
 var $lista_reklam = $('.lista-reklam-kampania'),
-	$miejsceNaInfoBox = $('section.reklamy');
+	$miejsceNaInfoBox = $('section.reklamy'),
+	$stworzKampanieButton = $('.etap-trzeci #stworz-kampanie-button'),
+	etap_pierwszy = false,
+	etap_drugi = false,
+	etap_trzeci = false;
 
+
+/*	funkcja, która sprawdza czy zostały spełnione wymagania do stworzenia kampanii,
+	usuwa klasę disabled z przycisku do tworzenia kampanii gdy użytkownik 
+	wykonał wszystkie etapy */
+function checkEtapy() {
+	if (etap_pierwszy && etap_drugi && etap_trzeci) {
+		$stworzKampanieButton.removeClass('disabled');
+	} else { $stworzKampanieButton.addClass('disabled'); }
+}
+
+/*	funkcja, która dodaje validację dla nazwy kampanii */
+function validacjaDlaNazwyKampanii() {
+	$input = $(".etap-trzeci .nazwa-kampanii-input");
+	
+	$input.on('keyup', function() {
+		if ($(this).val().length >=1) {
+			etap_trzeci = true;	
+		} else { etap_trzeci = false; }
+		checkEtapy();
+	});
+}
+
+/*	funkcja, która dodaje validację dla listy kont,
+	sprawdzamy obecność klasy selected */
+function validacjaDlaListyKont() {
+	$lista_kont = $('.etap-drugi .media-list');
+
+	$lista_kont.children().on('click', function() {
+		if ($(this).find('li').hasClass('selected')) {
+			etap_drugi = true;
+		} else {
+			etap_drugi = false; 
+		}
+		checkEtapy();
+	});
+}
 
 /*	funkcja, która dodaje event pozwalający na dodanie efektu select dla kont */
 function dodajEfektyWizualneDlaKont() {
 	// sprawdzamy czy jakieś konta w ogóle istnieją
 	if (($(".etap-drugi ul.media-list").children().length) > 1) {
-		$lista_kont = $('.etap-drugi ul li'); 
+		$lista_kont = $('.etap-drugi ul li');
+
 		$lista_kont.on('click', function(event) {
 			event.preventDefault();
 			$(this).toggleClass("selected");
@@ -43,6 +84,8 @@ function dodajEfektSelectDoReklam() {
 		// musimy usunąć klasę 'selected' i dodać ją do nowego itemu
 		$lista_reklam.find('.selected').removeClass('selected');
 		$(this).addClass('selected');
+		etap_pierwszy = true;
+		checkEtapy();
 	});
 }
 
@@ -69,8 +112,19 @@ function dodajInfoBox(el, type, content) {
 	el.append(infoBox);
 }
 
-/*	pobranie listy reklam z serwera */
-function pobierzListReklam(el, infoBox) {
+/*	pobranie listy kont z serwera 
+	el -> miejsce, w którym będziemy 'przypinać' kont, root dla kont
+	infoBox -> miejsce, w którym będziemy wyświetlać informacje alertowe
+*/
+function pobierzListeKont(el, infoBox) {
+
+}
+
+/*	pobranie listy reklam z serwera 
+	el -> miejsce, w którym będziemy 'przypinać' reklamy, root dla reklam
+	infoBox -> miejsce, w którym będziemy wyświetlać informacje alertowe
+*/
+function pobierzListeReklam(el, infoBox) {
 	$.ajax({
 		url: 'http://q4.maszyna.pl/api/adds',
 		type: 'get',
@@ -115,12 +169,19 @@ function pobierzListReklam(el, infoBox) {
 			dodajEfektSelectDoReklam();
 		}
 	});
-	console.log("pobierzListReklam");
+	console.log("pobierzListeReklam");
 }
 
 $(document).ready(function() {
 	// pobieramy listę reklam z serwera
-	pobierzListReklam($lista_reklam, $miejsceNaInfoBox);
+	pobierzListeReklam($lista_reklam, $miejsceNaInfoBox);
 	dodajEfektyWizualneDlaKont();
 
+	validacjaDlaNazwyKampanii();
+
+
+	// do zaimplementowania
+	pobierzListeKont('root', 'infoBox');
+	// przed tą funkcją będziemy robić GET na listę kont, potem dodamy validację
+	validacjaDlaListyKont();
 });
