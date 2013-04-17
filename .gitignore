@@ -2,5 +2,6 @@ _site/
 *.py
 skrypt
 skrypt.sh
+*.sh
 img/*
 img/
