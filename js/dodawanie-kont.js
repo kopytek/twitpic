@@ -23,15 +23,46 @@ function dodajInfoBox(el, type, content) {
 	el.append(infoBox);
 }
 
-/*	funkcja, która odpowiada za dodanie odpowiednich eventow
-		dla przyciskow, będzie to connect / disconnect kont
+/*	funkcja, która odpowiada za dodanie odpowiedniego eventu
+		dla przycisku disconnect konta 
 
-		dodamy event + zapytanie ajax dla każdego z dostępnych przycisków
+		dodamy event + zapytanie ajax
 */
-function dodajObslugePrzyciskow(el) {
+function dodajObslugePrzyciskuDelete(el) {
 
-	$buttons = el.find('a.btn');
+	// targetujemy specjalna klase pomocnicza
+	$buttons = el.find('a.btn-disconnect');
+	$.each($buttons, function(index, item) {
+		console.log(item);
 
+		$(item).bind('click', function() {
+			event.preventDefault();
+			console.log('lasdklas ');
+			$.ajax({
+				url: $(item).attr('data-href'),
+				type: 'get',
+				dataType: 'json',
+
+				error: function() {
+					console.log('error');
+				},
+				beforeSend: function() {
+					console.log('wysyłamy zapytanie');
+				},
+				complete: function() {
+					console.log('request completed');
+				},
+				success: function(data) {
+					// event occurred, what now?
+
+					// prosty refresh na początek
+					window.location = window.location;
+
+					console.log('udało się?');				
+				}
+			});
+		});
+	});
 }
 
 /*	funkcja, która pobiera listę kont z serwera */
@@ -78,7 +109,7 @@ function pobierzListKont(el) {
 						// tworzymy szkielet html do którego będą wrzucone dane z GET
 						var htmlString = "";
 						htmlString += '<div class="row-fluid" data-id-konta="'+ item.id + '"' + ' data-screen-name-konta="'+ item.screen_name + '"' + ' data-name-konta="'+ item.account_data.name + '" >';
-						htmlString += 	'<li class="media well well-small span7">';
+						htmlString += 	'<li class="media well well-small span8">';
 						htmlString += 		'<img class="media-object pull-left img-polaroid" src="' + item.account_data.profile_image_url.replace('_normal', '') + '"' + '</img>';
 						htmlString += 		'<div class="media-body span8">';
 						htmlString += 			'<h3>' + item.account_data.name +  '</h3>';
@@ -88,9 +119,9 @@ function pobierzListKont(el) {
 						htmlString += 			'<p>' + item.account_data.description +'</p>';
 						htmlString += 		'</div>';
 						htmlString += 	'</li>';
-						htmlString += 	'<div class="span7 buttons">';
-						htmlString += 		'<a href="#" data-href="http://q4.maszyna.pl/oauth/connect/' + item.id + '" class="btn btn-success"><i class="icon-refresh icon-white"></i>Połącz ponownie</a>';
-						htmlString += 		'<a href="#" data-href="http://q4.maszyna.pl/oauth/disconnect/' + item.id + '" class="btn btn-warning"><i class="icon-remove icon-white"></i>Odłącz konto</a>';
+						htmlString += 	'<div class="span8 buttons">';
+						htmlString += 		'<a href="http://q4.maszyna.pl/oauth/connect/"' + item.id + '" class="btn btn-success"><i class="icon-refresh icon-white"></i>Połącz ponownie</a>';
+						htmlString += 		'<a href="#" data-href="http://q4.maszyna.pl/oauth/disconnect/' + item.id + '" class="btn btn-warning btn-disconnect"><i class="icon-remove icon-white"></i>Odłącz konto</a>';
 						htmlString += 	'</div>';
 						htmlString += '</div>';
 						el.append(htmlString);
@@ -98,27 +129,28 @@ function pobierzListKont(el) {
 						// musimy wyrenderować inny widok bo nie mamy wszystkich dostępnych pól
 						var htmlString = "";
 						htmlString += '<div class="row-fluid" data-id-konta="'+ item.id + '"' + ' data-screen-name-konta="'+ item.screen_name + '" >';
-						htmlString += 	'<li class="media well well-small span7">';
+						htmlString += 	'<li class="media well well-small span8">';
 						htmlString += 		'<div class="media-body span8">';
 						htmlString += 			'<a href="http://twitter.com/' + item.screen_name + '" target="_blank" >';
 						htmlString += 			'<h3>@' + item.screen_name + '</h3>';
 						htmlString += 			'</a>';
 						htmlString += 		'</div>';
 						htmlString += 	'</li>';
-						htmlString += 	'<div class="alert alert-error span7">';
+						htmlString += 	'<div class="alert alert-error span8">';
 			    	htmlString += 		'<h4><strong>Dostęp do konta w aplikacji został cofnięty przez właściciela konta, naciśnij Połącz ponownie by dokonać ponownej autoryzacji</strong></h4>';
 			    	htmlString += 	'</div>';
-						htmlString += 	'<div class="span7 buttons">';
-						htmlString += 		'<a href="#" data-href="http://q4.maszyna.pl/oauth/connect/' + item.id + '" class="btn btn-success"><i class="icon-refresh icon-white"></i>Połącz ponownie</a>';
-						htmlString += 		'<a href="#" data-href="http://q4.maszyna.pl/oauth/disconnect/' + item.id + '" class="btn btn-warning"><i class="icon-remove icon-white"></i>Odłącz konto</a>';
+						htmlString += 	'<div class="span8 buttons">';
+						htmlString += 		'<a href="http://q4.maszyna.pl/oauth/connect/"' + item.id + '" class="btn btn-success"><i class="icon-refresh icon-white"></i>Połącz ponownie</a>';
+						htmlString += 		'<a href="#" data-href="http://q4.maszyna.pl/oauth/disconnect/' + item.id + '" class="btn btn-warning btn-disconnect"><i class="icon-remove icon-white"></i>Odłącz konto</a>';
 						htmlString += 	'</div>';
 						htmlString += '</div>';
 						el.append(htmlString);
 					}
 
-					dodajObslugePrzyciskow(el);		
+						
 				});
-			}			
+			}
+			dodajObslugePrzyciskuDelete(el);				
 		}
 	});
 }
