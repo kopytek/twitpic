@@ -116,9 +116,38 @@ hr {
 	03 Dodawanie kont
 	=======================================
 */
+.media-list div.row-fluid {
+	margin-bottom: 1em;
+}
 
+.lista-kont .media img.media-object {
+	max-width: 128px;
+}
+.lista-kont .buttons {
+	margin-left: 0;
+}
+.lista-kont .buttons a {
+	display: inline-block;
+	width: 43%;
+	margin: 0 1em;
+	padding: .4em;
+	font-size: 16px;
+	text-align: center;
+}
+.lista-kont .buttons a i {
+	width: 16px;
+	-webkit-transform: scale(1.1);
+	   -moz-transform: scale(1.1);
+		    transform: scale(1.1);
+}
 .lista-kont .media-body h3 {
 	margin: 0;
+}
+/*	stylujemy alert-box, który się pojawi gdy użytkownik cofnął
+	dostęp do swojego konta twitter i musimy ponownie
+	dokonać autoryzacji */
+.lista-kont .media-list .alert-error {
+	margin-left: 0;
 }
 a.link-home:hover,
 a.link-home:active {
@@ -536,7 +565,7 @@ ul.stworzone-kampanie li:nth-child(2) {
 }
 
 /*	========================================
-	07 Media Queries
+	07 Misc
 	========================================
 */
 
