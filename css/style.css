@@ -119,7 +119,9 @@ hr {
 .media-list div.row-fluid {
 	margin-bottom: 3em;
 }
-
+.media-list div.row-fluid:last-child {
+	margin-bottom: 0;
+}
 .lista-kont .media img.media-object {
 	max-width: 128px;
 }
@@ -418,8 +420,23 @@ section.reklamy .alert {
 	color: #444;
 }
 
+/* zmiany dla wyświetlania kont */
+
+.etap-drugi.lista-kont .buttons {
+	margin-left: 0;
+}
+
+.etap-drugi.lista-kont .buttons a {
+	display: inline-block;
+	width: 30%;
+	margin-right: 0;
+	padding: .4em;
+	font-size: 16px;
+	text-align: center;
+}
+
 .etap-drugi .media-list .media:hover {
-	cursor: pointer;
+	/*cursor: pointer;*/
 }
 
 .tworzenie-kampanii .etap-trzeci {
