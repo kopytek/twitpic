@@ -37,7 +37,10 @@ function dodajObslugePrzyciskuDelete(el) {
 
 		$(item).bind('click', function() {
 			event.preventDefault();
-			console.log('lasdklas ');
+			// dla każdego przycisku będziemy pamiętać konto 
+			// tak by przy usunięciu móc usunąć je także z DOM
+			$acc = $(item).parent().parent();
+
 			$.ajax({
 				url: $(item).attr('data-href'),
 				type: 'get',
@@ -53,12 +56,18 @@ function dodajObslugePrzyciskuDelete(el) {
 					console.log('request completed');
 				},
 				success: function(data) {
-					// event occurred, what now?
-
-					// prosty refresh na początek
-					window.location = window.location;
-
-					console.log('udało się?');				
+	
+					dodajInfoBox(el, 'success', 'Konto zostało pomyślnie usunięte.');
+					setTimeout(function() {
+						$('.alert-success').alert('close');
+					}, 2000);
+					// console.log($acc);
+					// usuwamy konto dla, którego zostal klikniety przycisk
+					// usuwamy go z DOM 
+					$acc.fadeOut(300, function() {
+						$(this).remove();
+					});
+					console.log('Konto zostało usunięte/odłączone');				
 				}
 			});
 		});

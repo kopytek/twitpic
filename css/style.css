@@ -410,7 +410,12 @@ section.reklamy .alert {
 }
 .lista-reklam-kampania .reklama-item .media-body,
 .lista-reklam-kampania .reklama-item .media-details { 
-	display: none;
+	/*display: none;*/
+
+	-webkit-transition: all 0.9s ease-in-out;
+	   -moz-transition: all 0.9s ease-in-out;
+	     -o-transition: all 0.9s ease-in-out;
+			transition: all 0.9s ease-in-out;
 }
 .well-custom .media-buttons a.pokaz-szczegoly {
 	width: 100%;
@@ -587,7 +592,7 @@ ul.stworzone-kampanie li:nth-child(2) {
 */
 
 .hidden {
-	display: none;
+	display: none !important;
 }
 
 /*	========================================
