@@ -120,7 +120,7 @@ function pobierzListKont(el) {
 						htmlString += 		'</div>';
 						htmlString += 	'</li>';
 						htmlString += 	'<div class="span8 buttons">';
-						htmlString += 		'<a href="http://q4.maszyna.pl/oauth/connect/"' + item.id + '" class="btn btn-success"><i class="icon-refresh icon-white"></i>Połącz ponownie</a>';
+						htmlString += 		'<a href="http://q4.maszyna.pl/oauth/connect/' + item.id + '" class="btn btn-success"><i class="icon-refresh icon-white"></i>Połącz ponownie</a>';
 						htmlString += 		'<a href="#" data-href="http://q4.maszyna.pl/oauth/disconnect/' + item.id + '" class="btn btn-warning btn-disconnect"><i class="icon-remove icon-white"></i>Odłącz konto</a>';
 						htmlString += 	'</div>';
 						htmlString += '</div>';
@@ -140,7 +140,7 @@ function pobierzListKont(el) {
 			    	htmlString += 		'<h4><strong>Dostęp do konta w aplikacji został cofnięty przez właściciela konta, naciśnij Połącz ponownie by dokonać ponownej autoryzacji</strong></h4>';
 			    	htmlString += 	'</div>';
 						htmlString += 	'<div class="span8 buttons">';
-						htmlString += 		'<a href="http://q4.maszyna.pl/oauth/connect/"' + item.id + '" class="btn btn-success"><i class="icon-refresh icon-white"></i>Połącz ponownie</a>';
+						htmlString += 		'<a href="http://q4.maszyna.pl/oauth/connect/' + item.id + '" class="btn btn-success"><i class="icon-refresh icon-white"></i>Połącz ponownie</a>';
 						htmlString += 		'<a href="#" data-href="http://q4.maszyna.pl/oauth/disconnect/' + item.id + '" class="btn btn-warning btn-disconnect"><i class="icon-remove icon-white"></i>Odłącz konto</a>';
 						htmlString += 	'</div>';
 						htmlString += '</div>';

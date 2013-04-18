@@ -375,8 +375,9 @@ $(document).ready(function() {
 		/* tworzymy reklamę, POST na /api/adds */
 	  $('#fileupload').fileupload({
 	    dataType: 'json',
-	    type:     'POST',
-	    url:      "http://q4.maszyna.pl/api/adds",
+	    type: 'POST',
+	    url: 'http://q4.maszyna.pl/api/adds/',
+	    redirect: 'http://q4.maszyna.pl/dodawanie-reklamy',
 	    formData: {
 	      'name': $('#nazwaReklamy').val(),
 	      'text': $('#wiadomoscDoWyslania').val()
@@ -391,6 +392,8 @@ $(document).ready(function() {
 	    },
 	    done: function (e, data) {
 	      console.log(data);
+	      // let's refresh this
+	      window.location = window.location;
 	      if(data.result && data.result.files) {
 	        $.each(data.result.files, function (index, file) {
 	          $('#commercial_create_form fieldset').append('<div class="alert alert-info"><button type="button" class="close" data-dismiss="alert">&times;</button><strong>Dodano:</strong> '+file.name+'</div>');
