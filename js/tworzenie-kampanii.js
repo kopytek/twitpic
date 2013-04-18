@@ -92,10 +92,8 @@ function dodajEfektSelectDoReklam() {
 function dodajWyswietlanieSzczegolow() {
 	$(".pokaz-szczegoly").on('click', function(event) {
 		event.preventDefault();
-		// $(this).parent().parent().find('.media-details').slideToggle();
-		// $(this).parent().parent().find('.media-body').slideToggle();
-		$(this).parent().parent().find('.media-body').toggleClass('hidden');
-		$(this).parent().parent().find('.media-details').toggleClass('hidden');
+		$(this).parent().parent().find('.media-details').slideToggle();
+		$(this).parent().parent().find('.media-body').slideToggle();
 	});
 }
 
@@ -322,10 +320,10 @@ function pobierzListeReklam(el, infoBox) {
 				htmlString += 		'<div class="img-holder">';
 				htmlString += 			'<img class="media-object" src="/uploads/' + item.path + '"' + '</img>';
 				htmlString += 		'</div>';
-				htmlString += 		'<div class="media-body hidden">';
+				htmlString += 		'<div class="media-body">';
 				htmlString += 			'<h1>' + item.name +  '</h1>';
 				htmlString += 		'</div>';
-				htmlString += 		'<div class="media-details hidden">';
+				htmlString += 		'<div class="media-details">';
 				htmlString += 			'<p class="lead">' + item.text +  '</p>';
 				htmlString += 		'</div>';
 				htmlString += 		'<div class="media-buttons">';
