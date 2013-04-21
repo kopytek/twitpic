@@ -117,7 +117,7 @@ hr {
 	=======================================
 */
 .media-list div.row-fluid {
-	margin-bottom: 3em;
+	margin-bottom: 2em;
 }
 .media-list div.row-fluid:last-child {
 	margin-bottom: 0;
@@ -135,6 +135,7 @@ hr {
 	padding: .4em;
 	font-size: 16px;
 	text-align: center;
+	float: right;
 }
 .lista-kont .buttons a i {
 	width: 16px;
@@ -426,7 +427,9 @@ section.reklamy .alert {
 }
 
 /* zmiany dla wyświetlania kont */
-
+.etap-drugi.lista-kont .media-list div.row-fluid {
+	margin-bottom: 2em;
+}
 .etap-drugi.lista-kont .buttons {
 	margin-left: 0;
 }
@@ -438,6 +441,7 @@ section.reklamy .alert {
 	padding: .4em;
 	font-size: 16px;
 	text-align: center;
+	float: right;
 }
 
 .etap-drugi .media-list .media:hover {

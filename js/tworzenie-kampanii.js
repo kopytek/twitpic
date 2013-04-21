@@ -111,73 +111,20 @@ function dodajInfoBox(el, type, content) {
 	el.append(infoBox);
 }
 
-/*	funkcja, która tworzy box dla kont
-		type
-			error
-			success
-			info 
+/*	funkcja, która tworzy box dla reklamy 
+		type -> error success info 
 		content -> tresc boxa 
 */
 function dodajInfoBoxKonta(el, type, content) {
 	// usuwamy inne boxy jeśli istnieją
 	$("ul.media-list .alert").alert('close');
 	var infoBox = "";
-			infoBox += '<div class="alert alert-' + type + '">';
+			infoBox += '<div class="alert alert-' + type + ' span12">';
     	infoBox += 	'<h4><strong>' + content + '</strong></h4>';
     	infoBox += '</div>';
 	el.append(infoBox);
 }
 
-/*	funkcja, która odpowiada za dodanie odpowiedniego eventu
-		dla przycisku disconnect konta 
-
-		dodamy event + zapytanie ajax
-*/
-function dodajObslugePrzyciskuDelete(el) {
-
-	// targetujemy specjalna klase pomocnicza
-	$buttons = el.find('a.btn-disconnect');
-	$.each($buttons, function(index, item) {
-		console.log(item);
-
-		$(item).bind('click', function() {
-			event.preventDefault();
-			// dla każdego przycisku będziemy pamiętać konto 
-			// tak by przy usunięciu móc usunąć je także z DOM
-			$acc = $(item).parent().parent();
-
-			$.ajax({
-				url: $(item).attr('data-href'),
-				type: 'get',
-				dataType: 'json',
-
-				error: function() {
-					console.log('error');
-				},
-				beforeSend: function() {
-					console.log('wysyłamy zapytanie');
-				},
-				complete: function() {
-					console.log('request completed');
-				},
-				success: function(data) {
-	
-					dodajInfoBox(el, 'success', 'Konto zostało pomyślnie usunięte.');
-					setTimeout(function() {
-						$('.alert-success').alert('close');
-					}, 2000);
-					// console.log($acc);
-					// usuwamy konto dla, którego zostal klikniety przycisk
-					// usuwamy go z DOM 
-					$acc.fadeOut(300, function() {
-						$(this).remove();
-					});
-					console.log('Konto zostało usunięte/odłączone');				
-				}
-			});
-		});
-	});
-}
 /*	funkcja, która odpowiada za dodanie odpowiedniego eventu
 		dla przycisku wybierz konta 
 */
@@ -194,7 +141,7 @@ function dodajObslugePrzyciskuWybierzKonto(el) {
 }
 
 /*	pobranie listy kont z serwera 
-	el -> miejsce, w którym będziemy 'przypinać' kont, root dla kont
+	el -> miejsce, w którym będziemy 'przypinać' konta, root dla kont
 	oraz miejsce, w którym będziemy wyświetlać informacje alertowe
 */
 function pobierzListeKont(el) {
@@ -208,18 +155,18 @@ function pobierzListeKont(el) {
 			dodajInfoBoxKonta(el, 'error', 'Nie udało się pobrać listy kont z serwera, wystąpił błąd.');
 		},
 		beforeSend: function() {
-			console.log('wysyłamy zapytanie');
+			console.log('wysyłamy zapytanie konta');
 			dodajInfoBoxKonta(el, 'info', 'Trwa pobieranie listy kont z serwera...');
 		},
 		complete: function() {
-			console.log('request completed');
+			console.log('request completed konta');
 		},
 		success: function(data) {
 			dataObject = data;
 			// sprawdzamy czy dostaliśmy pusty obiekt, jeśli tak to wyświetlamy 
 			// info, że nie ma żadnych dodanych kont
 			if ($.isEmptyObject(data)) {
-				dodajInfoBoxKonta(el, 'info', 'Brak dodanych kont, kliknij zielony przycisk powyżej by dodać konto :)');
+				dodajInfoBoxKonta(el, 'info', 'Brak dodanych kont, konto możesz dodać na na stronie \'Dodawanie kont\'');
 			} else {
 				dodajInfoBoxKonta(el, 'success', 'Lista kont została poprawnie wczytana z serwera!');
 
@@ -235,6 +182,9 @@ function pobierzListeKont(el) {
 					// musimy sprawdzić czy item posiada pole 'account_data', jeśli nie ma 
 					// takiego tzn, że został cofnięty access dla naszej aplikacji i trzeba
 					// nacisnąć reconnect by jeszcze raz uzyskać dostęp
+
+					// w tym miejscu będziemy pomijać konta, które zostały odłączone od naszej
+					// aplikacji, pełna lista kont + przycisk będzie dostępna na /dodawanie-kont
 					if (item.hasOwnProperty('account_data')) {
 
 						// tworzymy szkielet html do którego będą wrzucone dane z GET
@@ -251,36 +201,13 @@ function pobierzListeKont(el) {
 						htmlString += 		'</div>';
 						htmlString += 	'</li>';
 						htmlString += 	'<div class="span8 buttons">';
-						htmlString += 		'<a href="http://q4.maszyna.pl/oauth/connect/' + item.id + '" class="btn btn-success"><i class="icon-refresh icon-white"></i>Połącz ponownie</a>';
-						htmlString += 		'<a href="#" data-href="http://q4.maszyna.pl/oauth/disconnect/' + item.id + '" class="btn btn-warning btn-disconnect"><i class="icon-remove icon-white"></i>Odłącz konto</a>';
 						htmlString += 		'<a href="#" class="btn btn-info btn-zaznacz"><i class="icon-ok icon-white"></i>Wybierz konto</a>';
 						htmlString += 	'</div>';
 						htmlString += '</div>';
 						el.append(htmlString);
-					} else {
-						// musimy wyrenderować inny widok bo nie mamy wszystkich dostępnych pól
-						var htmlString = "";
-						htmlString += '<div class="row-fluid" data-id-konta="'+ item.id + '"' + ' data-screen-name-konta="'+ item.screen_name + '" >';
-						htmlString += 	'<li class="media well well-small span8">';
-						htmlString += 		'<div class="media-body span8">';
-						htmlString += 			'<a href="http://twitter.com/' + item.screen_name + '" target="_blank" >';
-						htmlString += 			'<h3>@' + item.screen_name + '</h3>';
-						htmlString += 			'</a>';
-						htmlString += 		'</div>';
-						htmlString += 	'</li>';
-						htmlString += 	'<div class="alert alert-error span8">';
-			    	htmlString += 		'<h4><strong>Dostęp do konta w aplikacji został cofnięty przez właściciela konta, naciśnij Połącz ponownie by dokonać ponownej autoryzacji</strong></h4>';
-			    	htmlString += 	'</div>';
-						htmlString += 	'<div class="span8 buttons">';
-						htmlString += 		'<a href="http://q4.maszyna.pl/oauth/connect/' + item.id + '" class="btn btn-success"><i class="icon-refresh icon-white"></i>Połącz ponownie</a>';
-						htmlString += 		'<a href="#" data-href="http://q4.maszyna.pl/oauth/disconnect/' + item.id + '" class="btn btn-warning btn-disconnect"><i class="icon-remove icon-white"></i>Odłącz konto</a>';
-						htmlString += 	'</div>';
-						htmlString += '</div>';
-						el.append(htmlString);
-					}	
+					} 	
 				});
 			}
-			dodajObslugePrzyciskuDelete(el);
 			dodajObslugePrzyciskuWybierzKonto(el);
 			// będziemy sprawdzać obecność klasy selected by dodać validację
 			dodajEfektyWizualneDlaKont();				
@@ -308,7 +235,7 @@ function pobierzListeReklam(el, infoBox) {
 		},
 		complete: function() {
 			// usuwamy box alert-info, zostawiamy alert-error jeśli wystąpił błąd
-			$(".alert-info").alert('close');
+			$(".lista-reklam-kampania .alert-info").alert('close');
 			console.log("request completed");
 		},
 		success: function(data) {
