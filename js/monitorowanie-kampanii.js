@@ -112,7 +112,8 @@ function dodajInfoBox(el, type, content) {
 
 var $miejsceNaKampanie = $('.stworzone-kampanie'),
 		jsonC,
-		listaKont; 
+		listaKont,
+		komentarzeJ; 
 
 
 /*	funkcja, która wczytuje komentarze z serwera i dodaje je do widoku kampanii */
@@ -138,6 +139,7 @@ function wczytajKomentarzeDlaKampanii(el) {
 				console.log('request completed');
 			},
 			success: function(data) {
+				komentarzeJ = data;
 				// zapisujemy nad jaką kampanią 'pracujemy'
 				campaign = el.children().filter('article[data-id-kampanii="'+id_kampanii+'"]');
 				// miejsce gdzie będziemy umieszczać komentarze
@@ -150,11 +152,33 @@ function wczytajKomentarzeDlaKampanii(el) {
 					comments.append(htmlString);
 				} else {
 					// dostaliśmy komentarze, wyświetlamy je
+					// przechodzimy po wszystkich obiektach (jeden obiekt == jeden komentarz)
+					$.each(data, function(index, item) {
+						var htmlString = "";
+						htmlString += '<li class="media comment">';
+						htmlString += 	'<a class="pull-left avatar-left" href="#">';
+						htmlString += 		'<img class="media-object" src=' + item.user.avatar_url + '>';
+						htmlString += 	'</a>';
+						htmlString += 	'<div class="media-body comment-content">';
+						htmlString += 		'<h4 class="media-heading comment-header">';
+						htmlString += 		item.user.username;
+						htmlString += 		'<span class="comment-timestamp">';
+						htmlString += 			'<time class="timeago" datetime="' + item.timestamp	+'"></time>';
+						htmlString += 		'</span>';
+						htmlString += 		'</h4>';
+						htmlString += 		'<p class="comment-text">';
+						htmlString +=				item.message;
+						htmlString += 		'</p>';
+						htmlString += 	'</div>';
+						htmlString += '</li>';
+						comments.append(htmlString);
+					});
 				}
-				console.log(data);
+				timeAgo();
 			}
 		});
 	});
+	
 }
 
 /*	funkcja, która odpowiada za pobranie listy kampanii z serwera
@@ -197,7 +221,8 @@ function pobierzListeKampanii(el) {
 				htmlString += 		'<div class="campaign-add span6" >';
 				htmlString += 			'<img class="media-object" src="/uploads/' + item.add.path + '"' + '</img>';
 				htmlString += 			'<p class="lead">' + item.add.text + '</p>';
-				htmlString += 			'<div class="campaign-accounts">';
+				htmlString += 		'</div>';
+				htmlString += 			'<div class="campaign-accounts span6">';
 				htmlString += 				'<h4 class="text-info">Konta biorące udział w kampanii</h4>';
 				htmlString += 				'<hr>';
 				htmlString += 				'<ul class="media-list accounts">';
@@ -215,7 +240,7 @@ function pobierzListeKampanii(el) {
 
 				htmlString += 				'</ul>';
 				htmlString += 			'</div>';
-				htmlString += 		'</div>';
+				
 				htmlString += 		'<div class="campaign-comments span6">';
 				htmlString += 			'<h4 class="text-info">Komentarze</h4>';
 				htmlString += 			'<hr>';

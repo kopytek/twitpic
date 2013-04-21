@@ -590,12 +590,22 @@ h4 + hr {
 	padding: 1em;
 }
 
+/*	campaign-accounts */
+.accounts a {
+	color: #666;
+}
+
 /*	campaign-comments */
 .campaign-item .media:not(:first-child) {
 	margin-top: 0;
 }
 .campaign-item .media-body {
 	padding: .6em;
+}
+.comment-timestamp {
+	color: rgb(153, 153, 153);
+	margin-left: 1em;
+	font-size: 14px;
 } 
 
 /* campaign-info */
