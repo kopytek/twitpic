@@ -12,6 +12,7 @@ var _json;
 /*	funkcja, która odpowiada za ustawienie pluginu timeago */
 function timeAgo() {
 	$('time.timeago').timeago();
+	console.log('timeagooooo');
 }
 
 
@@ -106,7 +107,55 @@ function dodajInfoBox(el, type, content) {
 // 	});
 // }
 
-var $miejsceNaKampanie = $('.stworzone-kampanie'); 
+
+
+
+var $miejsceNaKampanie = $('.stworzone-kampanie'),
+		jsonC,
+		listaKont; 
+
+
+/*	funkcja, która wczytuje komentarze z serwera i dodaje je do widoku kampanii */
+function wczytajKomentarzeDlaKampanii(el) {
+
+	// będziemy przechodzić po każdej kampanii i tworzyć dla niej zapytanie + dodawać
+	// komentarze 
+
+	$.each(el.children().filter('article'), function(index, item) {
+		// przechodzimy po kolejnej kampanii
+		id_kampanii = $(this).attr('data-id-kampanii');
+		$.ajax({
+			url: 'http://q4.maszyna.pl/api/campaigns/feedback/' + id_kampanii, 
+			type: 'get',
+			dataType: 'json',
+			error: function() {
+				console.log('error');
+			},
+			beforeSend: function() {
+				console.log('wysyłamy zapytanie');
+			},
+			complete: function() {
+				console.log('request completed');
+			},
+			success: function(data) {
+				// zapisujemy nad jaką kampanią 'pracujemy'
+				campaign = el.children().filter('article[data-id-kampanii="'+id_kampanii+'"]');
+				// miejsce gdzie będziemy umieszczać komentarze
+				comments = campaign.find('ul.comments');	
+				// sprawdzamy czy zostały dodane jakieś komentarze
+				if ($.isEmptyObject(data)) {
+					// nie ma dodanych jeszcze żadnych komentarzy
+					var htmlString = "";
+					htmlString += '<h3 class="text-warning">Brak komentarzy do kampanii</h3>';
+					comments.append(htmlString);
+				} else {
+					// dostaliśmy komentarze, wyświetlamy je
+				}
+				console.log(data);
+			}
+		});
+	});
+}
 
 /*	funkcja, która odpowiada za pobranie listy kampanii z serwera
 		i wyświetlenie pobranych kampanii */
@@ -128,10 +177,73 @@ function pobierzListeKampanii(el) {
 			console.log('request completed');
 		},
 		success: function(data) {
+			dodajInfoBox(el, 'success', 'Lista kampanii została poprawnie wczytana z serwera!');
+			setTimeout(function() {
+				$('.alert-success').alert('close');
+			}, 2000);
+
 			$.each(data, function(index, item) {
 
-				console.log(item);
+				// console.log(item);
+				jsonC = item;
+
+				// tworzymy szkielet html do którego będą wrzucone dane z GET
+				var htmlString = "";
+				htmlString += '<article class="campaign-item well-custom row-fluid" data-id-kampanii="'+ item.id + '"' + 'data-nazwa-kampanii="'+ item.name + '"' +  '>';
+				htmlString += 	'<header class="span12 campaign-title" >';
+				htmlString += 		'<h1>' + item.name + '</h1>';
+				htmlString += 	'</header>';
+				htmlString += 	'<div class="row-fluid" >';
+				htmlString += 		'<div class="campaign-add span6" >';
+				htmlString += 			'<img class="media-object" src="/uploads/' + item.add.path + '"' + '</img>';
+				htmlString += 			'<p class="lead">' + item.add.text + '</p>';
+				htmlString += 			'<div class="campaign-accounts">';
+				htmlString += 				'<h4 class="text-info">Konta biorące udział w kampanii</h4>';
+				htmlString += 				'<hr>';
+				htmlString += 				'<ul class="media-list accounts">';
+
+				// accounts są przekazywane jako obiekt, który może zawierać wiele elementów
+				// potrzebujemy kolejny .each żeby przejśc po każdym obiekcie
+
+				$.each(item.accounts, function(indexA,itemA) {
+					htmlString +=	'<li class="media account" data-id-account="' + itemA.id + '"' +  '>';
+					htmlString += 	'<a class="pull-left" href="http://twitter.com/' + itemA.screen_name + '" >	';
+					htmlString += 		'<h3>@' + itemA.screen_name + '</h3>';
+					htmlString += 	'</a>';
+					htmlString += '</li>';
+				});
+
+				htmlString += 				'</ul>';
+				htmlString += 			'</div>';
+				htmlString += 		'</div>';
+				htmlString += 		'<div class="campaign-comments span6">';
+				htmlString += 			'<h4 class="text-info">Komentarze</h4>';
+				htmlString += 			'<hr>';
+				// sekcja z komentarzami, wczytamy ją dopiero po stworzeniu wszystkich 
+				// kampanii, na końcu będzie jej wywołanie 
+				htmlString += 				'<ul class="media-list comments">';
+				htmlString += 				'</ul>';
+				htmlString += 		'</div>';
+				htmlString += 	'</div>';
+				
+				// potrzebujemy znów przejść po obiekcie i znaleźć link do kampanii
+				// w serwisie twitpic
+				$.each(item.twitpic_data, function(indexL, itemL) {
+					link_do_kampanii = itemL.url;
+				});
+
+				htmlString += 	'<footer class="campaign-info span12">';
+				htmlString += 		'<p><i class="icon-time"></i><time class="timeago" datetime="'+ item.published + '"></time></p>';
+				htmlString += 		'<p><a href="' + link_do_kampanii + '" title="Link do kampanii w serwisie twitpic">' + link_do_kampanii + '</a></p>';
+				htmlString += 	'</footer>';
+				htmlString += '</article>';
+
+				el.append(htmlString);
 			});
+			// timeago
+			timeAgo();
+			// wczytujemy komentarze dla kampanii
+			wczytajKomentarzeDlaKampanii(el);
 		}
 	});
 }
@@ -141,8 +253,7 @@ $(document).ready(function() {
 	// pobieramy listę kampanii
 	pobierzListeKampanii($miejsceNaKampanie);
 
-	// timeago
-	timeAgo();
+	
 
 	// var alertBox = $(".monitorowanie-kampanii .alert-box");
 	// var miejsce = $(".monitorowanie-kampanii .container .stworzone-kampanie");

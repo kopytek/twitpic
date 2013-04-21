@@ -573,23 +573,32 @@ ul.stworzone-kampanie li:nth-child(2) {
 	margin-bottom: 2em;
 }
 
-/*	campaign-add */
+h4 + hr {
+	margin: 10px 0;
+}
 
+/* campaign-title */
+.campaign-title {
+	padding: 0 1em;
+}
+.campaign-title h1 {
+	/*color: rgb(70, 136, 71);*/
+}
+
+/*	campaign-add */
 .campaign-add {
 	padding: 1em;
 }
 
-/*	campaign-details */
-
-.campaign-details {
-	padding: 1em 0;
+/*	campaign-comments */
+.campaign-item .media:not(:first-child) {
+	margin-top: 0;
 }
-.campaign-details h4 + hr {
-	margin: 10px 0;
-}
+.campaign-item .media-body {
+	padding: .6em;
+} 
 
 /* campaign-info */
-
 .campaign-info {
 	position: relative;
 	bottom: 0;
