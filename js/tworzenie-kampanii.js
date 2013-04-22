@@ -97,13 +97,15 @@ function dodajWyswietlanieSzczegolow() {
 	});
 }
 
-/*	funkcja, która tworzy box dla reklamy 
+/*	funkcja, która tworzy box informacyjny
+		alertDest -> miejsce, z którego usuwamy stare alerty
+		el -> miejsce, do którego przypinamy box 
 		type -> error success info 
 		content -> tresc boxa 
 */
-function dodajInfoBox(el, type, content) {	
+function dodajInfoBox(alertDest, el, type, content) {
 	// usuwamy inne boxy jeśli istnieją
-	$(".lista-reklam-kampania .alert").alert('close');
+	alertDest.find('.alert').alert('close');
 	var infoBox = "";
 	infoBox += '<div class="alert alert-' + type + ' span12">';
 	infoBox += 	'<h4><strong>' + content + '</strong></h4>';
@@ -226,11 +228,11 @@ function pobierzListeReklam(el, infoBox) {
 		dataType: 'json',
 
 		error: function(){
-			dodajInfoBox(infoBox,'error', "Nie udało się pobrać informacji z serwera, wystąpił błąd.");
+			dodajInfoBox($lista_reklam,infoBox,'error', "Nie udało się pobrać informacji z serwera, wystąpił błąd.");
 			console.log("error");				
 		},
 		beforeSend: function() {
-			dodajInfoBox(infoBox, 'info', 'Trwa pobieranie informacji z serwera, proszę czekać.');
+			dodajInfoBox($lista_reklam,infoBox, 'info', 'Trwa pobieranie informacji z serwera, proszę czekać.');
 			console.log("wysyłamy zapytanie");
 		},
 		complete: function() {
@@ -266,6 +268,95 @@ function pobierzListeReklam(el, infoBox) {
 	});
 	console.log("pobierzListeReklam");
 }
+/*	funkcja, która czyści dane wpisane / kliknięte przez użytkownika 
+		podczas procesu tworzenia kampanii */  
+function wyczyscDaneTworzeniaKampanii() {
+
+	// lista reklam
+	$.each($lista_reklam.children(), function(index, item) {
+		$(this).removeClass('selected');
+	});
+
+	// lista kont
+	if (($(".etap-drugi ul.media-list").children().length) > 1) {
+		$_lista_kont = $('.etap-drugi ul.media-list li.media');
+
+		$.each($_lista_kont, function(item, index) {
+			$(this).removeClass('selected');
+		});	
+	}
+
+	// nazwa kampanii	
+	$input = $(".etap-trzeci .nazwa-kampanii-input");
+	$input.val = " ";	
+}
+
+/*	funkcja, która dodaje akcję po naciśnięciu przycisku 'Stwórz Kampanię' */
+function dodajObslugePrzyciskuStworzKampanie() {
+
+	// tworzymy zapytanie POST, przesyłamy
+	// POST[] = {
+ 	// 'name': 'słoneczko :)',
+ 	// 'add': 'id reklamy',
+ 	// 'accounts': 'lista id kont, id przedzielone przecinkami'
+
+ 	$stworzKampanieButton.on('click', function(event) {
+ 		event.preventDefault();
+
+ 		// zbieramy informacje potrzebne do stworzenia kampanii
+	 	$nazwa_kampanii = $(".etap-trzeci .nazwa-kampanii-input").val();
+	 	$id_reklamy = $lista_reklam.find('.selected').attr('data-id-reklamy');
+	 	
+	 	// musimy znaleźć id kont, dany element li ma klasę selected jeśli został 
+	 	// wybrany, natomiast data-id-kampanii jest przetrzymywana w elemencie wyżej
+	 	// w div.row-fluid 
+
+	 	$id_kont = '';
+
+	 	$selected = $('.etap-drugi ul.media-list').children().find('li.selected');
+	 	// przechodzimy po wszystkich elementach, zapisujemy id-kont
+	 	$.each($selected, function(index, item) {
+	 		$id_kont += $(this).parent().attr('data-id-konta');
+	 		// jeśli jest ostatni element to nie dodajemy już przecinka
+	 		if (index != ($selected.length - 1 )) {
+	 			$id_kont += ',';
+	 		}
+	 	});
+
+	 	// miejsce gdzie będzie przypinany box alterowy
+	 	$alertDest = $('.etap-trzeci .row-fluid:last-child');
+
+	 	$.ajax({
+			url: 'http://q4.maszyna.pl/api/campaigns/publish',
+			type: 'post',
+			dataType: 'json',
+			data: {
+				'name': $nazwa_kampanii,
+				'add': $id_reklamy,
+				'accounts': $id_kont
+			},
+
+			error: function(){
+				dodajInfoBox($alertDest, $alertDest, 'error', 'Nie udało się stworzyć kampanii reklamowej, spróbuj ponownie później.');
+				console.log("error");				
+			},
+			beforeSend: function() {
+				dodajInfoBox($alertDest, $alertDest, 'info', 'Trwa wysyłanie zapytania do serwera...');
+				console.log("wysyłamy zapytanie");
+			},
+			complete: function() {
+				// usuwamy box alert-info, zostawiamy alert-error jeśli wystąpił błąd
+				// $(".lista-reklam-kampania .alert-info").alert('close');
+				console.log("request completed");
+			},
+			success: function(data) {
+				dodajInfoBox($alertDest, $alertDest, 'success', 'Kampania reklamowa została stworzona, możesz zobaczyć ją w zakładce \'Monitorowanie kampanii\'');
+				wyczyscDaneTworzeniaKampanii();
+			}
+		});
+ 	});
+}
+
 
 $(document).ready(function() {
 	
@@ -277,5 +368,7 @@ $(document).ready(function() {
 
 	// sprawdzamy nazwę kampanii	
 	validacjaDlaNazwyKampanii();
+
+	dodajObslugePrzyciskuStworzKampanie();
 
 });

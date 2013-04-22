@@ -451,6 +451,9 @@ section.reklamy .alert {
 .tworzenie-kampanii .etap-trzeci {
 	margin-bottom: 2em;
 }
+.etap-trzeci div.row-fluid:last-child .alert{
+	margin-left: 0;
+}
 /* pomocniczna klasa dla elementów, które zostały kliknięte i wybrane */
 .selected {
 	border-color: rgba(130, 179, 61, 1);

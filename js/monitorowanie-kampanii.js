@@ -124,7 +124,12 @@ function wczytajKomentarzeDlaKampanii(el) {
 
 	$.each(el.children().filter('article'), function(index, item) {
 		// przechodzimy po kolejnej kampanii
-		id_kampanii = $(this).attr('data-id-kampanii');
+		var id_kampanii = $(this).attr('data-id-kampanii');
+		// zapisujemy nad jaką kampanią 'pracujemy'
+		var campaign = el.children().filter('article[data-id-kampanii="'+id_kampanii+'"]');
+		// miejsce gdzie będziemy umieszczać komentarze
+		var comments = campaign.find('ul.comments');	
+		
 		$.ajax({
 			url: 'http://q4.maszyna.pl/api/campaigns/feedback/' + id_kampanii, 
 			type: 'get',
@@ -134,23 +139,21 @@ function wczytajKomentarzeDlaKampanii(el) {
 			},
 			beforeSend: function() {
 				console.log('wysyłamy zapytanie');
+				comments.append('<p class="comments-loading text-info">Trwa wczytywanie komentarzy...</p>');
 			},
 			complete: function() {
 				console.log('request completed');
 			},
 			success: function(data) {
-				komentarzeJ = data;
-				// zapisujemy nad jaką kampanią 'pracujemy'
-				campaign = el.children().filter('article[data-id-kampanii="'+id_kampanii+'"]');
-				// miejsce gdzie będziemy umieszczać komentarze
-				comments = campaign.find('ul.comments');	
+				// komentarzeJ = data;
+				comments.find('p.comments-loading').remove();
 				// sprawdzamy czy zostały dodane jakieś komentarze
-				if ($.isEmptyObject(data)) {
+				if (data == null ) {
 					// nie ma dodanych jeszcze żadnych komentarzy
-					var htmlString = "";
-					htmlString += '<h3 class="text-warning">Brak komentarzy do kampanii</h3>';
-					comments.append(htmlString);
+					console.log('brak komentarzy...');
+					comments.append('<p class="text-warning">Brak komentarzy do kampanii</p>');
 				} else {
+					console.log("dodaje komentarze do " + id_kampanii);
 					// dostaliśmy komentarze, wyświetlamy je
 					// przechodzimy po wszystkich obiektach (jeden obiekt == jeden komentarz)
 					$.each(data, function(index, item) {
@@ -163,7 +166,14 @@ function wczytajKomentarzeDlaKampanii(el) {
 						htmlString += 		'<h4 class="media-heading comment-header">';
 						htmlString += 		item.user.username;
 						htmlString += 		'<span class="comment-timestamp">';
-						htmlString += 			'<time class="timeago" datetime="' + item.timestamp	+'"></time>';
+
+						// małe problemy z czasami, musimy zmienić format na ISO/UTC tak żeby 
+						// timeago dostał czas + strefę czasową (uwzgledniając zmianę czasu na letni
+						// albo zimowy)
+						// var comment_time = new Date(item.timestamp);
+						// comment_time = comment_time.toGMTString();
+						// comment_time = comment_time.toISOString();
+						htmlString += 			'<time class="timeago" datetime="' + item.timestamp	+ '+0000' +'"></time>';
 						htmlString += 		'</span>';
 						htmlString += 		'</h4>';
 						htmlString += 		'<p class="comment-text">';
@@ -249,17 +259,20 @@ function pobierzListeKampanii(el) {
 				htmlString += 				'<ul class="media-list comments">';
 				htmlString += 				'</ul>';
 				htmlString += 		'</div>';
-				htmlString += 	'</div>';
+				htmlString += 	'</div>';	
+				htmlString += 	'<footer class="campaign-info span12">';
+				// pobieramy czas z 'twitpic_data' a nie z 'published'
+				$.each(item.twitpic_data, function(indexL, itemL) {
+					data_stworzenia_kampanii = itemL.timestamp;
+				});
+				htmlString += 		'<p><i class="icon-time"></i><time class="timeago" datetime="'+ item.published + '" ></time></p>';
 				
-				// potrzebujemy znów przejść po obiekcie i znaleźć link do kampanii
+				// potrzebujemy znów przejść po obiekcie i znaleźć linki do kampanii
 				// w serwisie twitpic
 				$.each(item.twitpic_data, function(indexL, itemL) {
-					link_do_kampanii = itemL.url;
+					
+					htmlString += '<p><a href="' + itemL.url + '" title="Link do kampanii w serwisie twitpic" target="_blank">' + itemL.url + '</a></p>';
 				});
-
-				htmlString += 	'<footer class="campaign-info span12">';
-				htmlString += 		'<p><i class="icon-time"></i><time class="timeago" datetime="'+ item.published + '"></time></p>';
-				htmlString += 		'<p><a href="' + link_do_kampanii + '" title="Link do kampanii w serwisie twitpic">' + link_do_kampanii + '</a></p>';
 				htmlString += 	'</footer>';
 				htmlString += '</article>';
 
