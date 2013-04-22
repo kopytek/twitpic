@@ -592,6 +592,13 @@ h4 + hr {
 .campaign-add {
 	padding: 1em;
 }
+.campaign-add .add-name {
+	margin-top: 0;
+	color: #999;
+}
+.campaign-add .add-text {
+	margin-top: 20px;
+}
 
 /*	campaign-accounts */
 .accounts a {

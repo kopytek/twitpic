@@ -2,10 +2,12 @@
 	monitorowanie kampanii
 */
 
-var lista = $("ul.stworzone-kampanie li"),
-		$miejsceNaKampanie = $('.stworzone-kampanie'),	
-		jsonObj = {
+var $miejsceNaKampanie = $('.stworzone-kampanie'),
+		jsonCampaigns = {
 			campaigns: []
+		},
+		jsonAdds = {
+			adds: []
 		},
 		_json,	
 		jsonC,
@@ -16,14 +18,18 @@ var lista = $("ul.stworzone-kampanie li"),
 /*	funkcja, która odpowiada za ustawienie pluginu timeago */
 function timeAgo() {
 	$('time.timeago').timeago();
-	console.log('timeagooooo');
 }
 
-/*	funkcja, która odpowiada za fuzzy search */
-function fuzzyS(campaigns) {
+/*	wyszukiwanie po nazwie kampanii albo nazwie reklamy 
+		add/campaigns -> obiekt JSON, w którym mamy informacje do wyszukiwania
+*/
+function fuzzySearch(add, campaigns) {
 
-	var input = $("#nazwaReklamy"),
-			lista = $("ul.stworzone-kampanie li"),
+	console.log("inside functon");
+
+	var input = $("#nazwaKampanii"),
+			input2 = $("#nazwaReklamy"),
+			lista = $(".stworzone-kampanie .campaign-item"),
 			isCaseSensitive = false,
 			fuse;
 
@@ -34,14 +40,14 @@ function fuzzyS(campaigns) {
 		}
 		var f = new Fuse(campaigns.campaigns, options);
 		var result = f.search(input.val());
-	
+
 		// jeśli jest pusty response to pokazujemy wszystkie elementy na liscie 
 		if (result.length == 0 ) {
-			$(".stworzone-kampanie article").show();
+			$(".stworzone-kampanie .campaign-item").show();
 		} else {
 			// response nie jest pusty, ukrywamy / pokazujemy elementy bo zostało coś znalezione
-			$lista = $('.stworzone-kampanie');
-			
+			$lista = $('.stworzone-kampanie .campaign-item');
+
 			// przechodzimy po kolei po wszystkich elementach listy
 			$.each($lista, function(el) {
 				znaleziony = false;
@@ -62,8 +68,44 @@ function fuzzyS(campaigns) {
 			}); 
 		}	
 	}
+	function search1() {
+		var options = {
+			keys: ['name'],
+			id: 'id'
+		}
+		var f = new Fuse(add.adds, options);
+		var result = f.search(input2.val());
+
+		// jeśli jest pusty response to pokazujemy wszystkie elementy na liscie 
+		if (result.length == 0 ) {
+			$(".stworzone-kampanie .campaign-item").show();
+		} else {
+			// response nie jest pusty, ukrywamy / pokazujemy elementy bo zostało coś znalezione
+			$lista = $('.stworzone-kampanie .campaign-item');
+
+			// przechodzimy po kolei po wszystkich elementach listy
+			$.each($lista, function(el) {
+				znaleziony = false;
+				// ustawiamy id danej kampanii 
+				$id =  $(this).attr('data-id-reklamy');
+				// przechodzimy przez wszystkie wyniki z Fuse
+				$.each(result, function(i,item) {
+					if ($id === item) { 
+						// element znaleziony
+						znaleziony = true;
+				 	}	
+				});
+
+				// jeśli element został znaleziony to go pokazujemy, inaczej hide
+				if (znaleziony) { 
+					$(this).show();
+				} else { $(this).hide(); }
+			}); 
+		}	
+	}
 
 	input.on("keyup", search2);
+	input2.on("keyup", search1);
 }
 
 /*	funkcja, która tworzy box dla reklamy 
@@ -182,19 +224,28 @@ function pobierzListeKampanii(el) {
 
 			$.each(data, function(index, item) {
 
-				// console.log(item);
-				jsonC = item;
+				// tworzymy JSON object by przetrzymywać podstawowe dane 
+				// potrzebne do filtrowania
+				jsonCampaigns.campaigns.push({
+					"id": item.id,
+					"name": item.name,
+				});
+				jsonAdds.adds.push({
+					"id": item.add.id,
+					"name": item.add.name
+				});
 
 				// tworzymy szkielet html do którego będą wrzucone dane z GET
 				var htmlString = "";
-				htmlString += '<article class="campaign-item well-custom row-fluid" data-id-kampanii="'+ item.id + '"' + 'data-nazwa-kampanii="'+ item.name + '"' +  '>';
+				htmlString += '<article class="campaign-item well-custom row-fluid" data-id-kampanii="'+ item.id + '"' + ' data-nazwa-kampanii="'+ item.name + '"' + ' data-id-reklamy="' + item.add.id + '" data-nazwa-reklamy="' + item.add.name + '" >';
 				htmlString += 	'<header class="span12 campaign-title" >';
 				htmlString += 		'<h1>' + item.name + '</h1>';
 				htmlString += 	'</header>';
 				htmlString += 	'<div class="row-fluid" >';
 				htmlString += 		'<div class="campaign-add span6" >';
+				htmlString += 			'<h3 class="add-name">' + item.add.name + '</h3>';
 				htmlString += 			'<img class="media-object" src="/uploads/' + item.add.path + '"' + '</img>';
-				htmlString += 			'<p class="lead">' + item.add.text + '</p>';
+				htmlString += 			'<p class="lead add-text">' + item.add.text + '</p>';
 				htmlString += 		'</div>';
 				htmlString += 			'<div class="campaign-accounts span6">';
 				htmlString += 				'<h4 class="text-info">Konta biorące udział w kampanii</h4>';
@@ -242,15 +293,18 @@ function pobierzListeKampanii(el) {
 
 				el.append(htmlString);
 			});
+
 			// timeago
 			timeAgo();
-
 			// dodajemy account names do naszego selectu
 			dodajAccountData();
+			
 			// wczytujemy komentarze dla kampanii
 			wczytajKomentarzeDlaKampanii(el);
 		}
 	});
+	// filtrowanie kampanii na podstawie nazwy kampanii / reklamy
+	fuzzySearch(jsonAdds, jsonCampaigns);
 }
 
 
@@ -264,6 +318,10 @@ function dodajObslugePrzyciskuPokazWszystkie() {
 
 		// zmieniamy tekst wyświetlany przy wyborze kont
 		$('.filtrowanie-buttons a.btn').text('Konta biorące udział w kampanii');
+
+		// czyścimy input dla wyszukiwania reklam / kampanii
+		$("#nazwaKampanii").val('');
+		$("#nazwaReklamy").val('');
 	});	
 
 }
@@ -324,7 +382,6 @@ function dodajAccountData() {
 
 }
 
-
 $(document).ready(function() {
 
 	// pobieramy listę kampanii
@@ -332,76 +389,5 @@ $(document).ready(function() {
 
 	// przycisk resetujący filtrowanie
 	dodajObslugePrzyciskuPokazWszystkie();
-
-	
-
-	// var alertBox = $(".monitorowanie-kampanii .alert-box");
-	// var miejsce = $(".monitorowanie-kampanii .container .stworzone-kampanie");
-	// // zapytania GET na listę kampanii reklamowych 
-	
-	// $.ajax({
-	// 	url: 'http://q4.maszyna.pl/api/adds',
-	// 	type: 'get',
-	// 	dataType: 'json',
-
-	// 	error: function(){
-	// 		var errorBox = "";
-	// 		errorBox += '<div class="alert alert-error">';
- //      errorBox += 	'<h4><strong>Nie udało się pobrać informacji z serwera, wystąpił błąd.</strong></h4>';
- //    	errorBox += '</div>';
- //    	alertBox.append(errorBox);
-	// 		console.log("error");				
-	// 	},
-	// 	beforeSend: function() {
-	// 		var infoBox = "";
-	// 		infoBox += '<div class="alert alert-info">';
- //    	infoBox += 	'<h4><strong>Trwa pobieranie informacji z serwera, proszę czekać.</strong></h4>';
- //    	infoBox += '</div>';
- //    	alertBox.append(infoBox);
-	// 		console.log("wysyłamy zapytanie");
-	// 	},
-	// 	complete: function() {
-	// 		// usuwamy box alert-info, zostawiamy alert-error jeśli wystąpił błąd
-	// 		$(".alert-info").alert('close');
-	// 		console.log("request completed");
-	// 	},
-	// 	success: function(data) {
-	// 		$.each(data, function(index, item){		
-	// 			jsonObj.campaigns.push({
-	// 				"id" : item._id.$id,
-	// 				"name": item.name
-	// 			});
-	// 			// tworzymy szkielet html do którego będą wrzucone dane z GET
-	// 			var htmlString = "";
-	// 			htmlString += '<li class="media span6" data-id-kampanii="'+ item._id.$id + '"' + 'data-nazwa-kampanii="'+ item.name + '"' +  '>';
-	// 			htmlString += 	'<div class="span12 well-campaign">';
-	// 			htmlString += 		'<div class="pull-left">';
-	// 			htmlString += 			'<img class="media-object" src="/uploads/' + item.path + '"' + '</img>';
-	// 			htmlString += 		'</div>';
-	// 			htmlString += 		'<div class="media-body">';
-	// 			htmlString += 			'<h1>' + item.name +  '</h1>';
-	// 			htmlString += 		'</div>';
-	// 			htmlString += 		'<div class="media-details">';
-	// 			htmlString += 			'<p class="lead">' + item.text +  '</p>';
-	// 			htmlString += 		'</div>';
-	// 			htmlString += 		'<div class="media-buttons">';
-	// 			htmlString += 			'<a href="#" class="pull-left pokaz-szczegoly" alt=""><i class="icon-comment"></i>Pokaż szczegóły</a>';
-	// 			htmlString += 			'<a href="#" class="pull-right usun-kampanie" alt=""><i class="icon-trash"></i>Usuń kampanię</a>';
-	// 			htmlString += 		'</div>';
-	// 			htmlString += 	'</div>';
-	// 			htmlString += '</li>';
-	// 			miejsce.append(htmlString);
-	// 		});
-	// 		$(".alert").alert('close');
-	// 		dodajEfektyWizualneDoKampanii();
-	// 		dodajWyswietlanieSzczegolow();
-		
-	// 		// obiekt json, w którym przechowujemy informacje o kampaniach, id + nazwa
-	// 		// dzięku temu w filtrowaniu posłużymy się id do ukrywania	
-	// 			// fuzzyS(jsonObj);
-	// 	}
-	// });
-	// fuzzyS(jsonObj);
-
 
 });
