@@ -2,12 +2,16 @@
 	monitorowanie kampanii
 */
 
-var lista = $("ul.stworzone-kampanie li");	
-var jsonObj = {
-	campaigns: []
-};
-var _json;
-
+var lista = $("ul.stworzone-kampanie li"),
+		$miejsceNaKampanie = $('.stworzone-kampanie'),	
+		jsonObj = {
+			campaigns: []
+		},
+		_json,	
+		jsonC,
+		listaKont,
+		komentarzeJ,
+		screen_names = [];
 
 /*	funkcja, która odpowiada za ustawienie pluginu timeago */
 function timeAgo() {
@@ -15,10 +19,8 @@ function timeAgo() {
 	console.log('timeagooooo');
 }
 
-
+/*	funkcja, która odpowiada za fuzzy search */
 function fuzzyS(campaigns) {
-
-	console.log("inside functon");
 
 	var input = $("#nazwaReklamy"),
 			lista = $("ul.stworzone-kampanie li"),
@@ -35,10 +37,10 @@ function fuzzyS(campaigns) {
 	
 		// jeśli jest pusty response to pokazujemy wszystkie elementy na liscie 
 		if (result.length == 0 ) {
-			$("ul.stworzone-kampanie li").show();
+			$(".stworzone-kampanie article").show();
 		} else {
 			// response nie jest pusty, ukrywamy / pokazujemy elementy bo zostało coś znalezione
-			$lista = $('.stworzone-kampanie li.media');
+			$lista = $('.stworzone-kampanie');
 			
 			// przechodzimy po kolei po wszystkich elementach listy
 			$.each($lista, function(el) {
@@ -64,27 +66,6 @@ function fuzzyS(campaigns) {
 	input.on("keyup", search2);
 }
 
-// var dodajEfektyWizualneDoKampanii = function() {
-
-// 	/* monitorowanie kampanii, dodajemy efekty kliknięcia kampanii */
-// 	if (($(".stworzone-kampanie .komentarze-div ul").children().length) > 1) { 
-// 		$(".stworzone-kampanie .nazwa-kampanii").on('click', function(event) {
-// 			event.preventDefault();
-// 			$(this).toggleClass("selected");
-
-// 			$(".stworzone-kampanie .komentarze-div").slideToggle();
-// 		});
-// 	} else {
-// 		$(".stworzone-kampanie .nazwa-kampanii").on('click', function(event) {
-// 			event.preventDefault();
-// 			$(this).toggleClass("selected");
-// 			console.log("efekty dodane do kampanii, brak komentarzy");
-// 		});
-
-// 		$(".stworzone-kampanie .komentarze-div ul").append('<h2>Brak dodanych komentarzy</h2>');
-// 	}
-// }
-
 /*	funkcja, która tworzy box dla reklamy 
 		type -> error success info 
 		content -> tresc boxa 
@@ -98,23 +79,6 @@ function dodajInfoBox(el, type, content) {
 	infoBox += '</div>';
 	el.append(infoBox);
 }
-
-
-// var dodajWyswietlanieSzczegolow = function() {
-// 	$(".pokaz-szczegoly").on('click', function(event) {
-// 			event.preventDefault();
-// 			$(this).parent().parent().find('.media-details').slideToggle();
-// 	});
-// }
-
-
-
-
-var $miejsceNaKampanie = $('.stworzone-kampanie'),
-		jsonC,
-		listaKont,
-		komentarzeJ; 
-
 
 /*	funkcja, która wczytuje komentarze z serwera i dodaje je do widoku kampanii */
 function wczytajKomentarzeDlaKampanii(el) {
@@ -241,7 +205,7 @@ function pobierzListeKampanii(el) {
 				// potrzebujemy kolejny .each żeby przejśc po każdym obiekcie
 
 				$.each(item.accounts, function(indexA,itemA) {
-					htmlString +=	'<li class="media account" data-id-account="' + itemA.id + '"' +  '>';
+					htmlString +=	'<li class="media account" data-id-account="' + itemA.id + '"' + ' data-account-screen_name="' + itemA.screen_name + '" >';
 					htmlString += 	'<a class="pull-left" href="http://twitter.com/' + itemA.screen_name + '" >	';
 					htmlString += 		'<h3>@' + itemA.screen_name + '</h3>';
 					htmlString += 	'</a>';
@@ -280,16 +244,94 @@ function pobierzListeKampanii(el) {
 			});
 			// timeago
 			timeAgo();
+
+			// dodajemy account names do naszego selectu
+			dodajAccountData();
 			// wczytujemy komentarze dla kampanii
 			wczytajKomentarzeDlaKampanii(el);
 		}
 	});
 }
 
+
+/*	funkcja, która pokazuje wszystkie kampanie */
+function dodajObslugePrzyciskuPokazWszystkie() {
+	$('.filtrowanie-buttons button').bind('click', function(event) {
+		event.preventDefault();
+		
+		// pokazujemy wszystkie kampaniie
+		$miejsceNaKampanie.find('article').show();
+
+		// zmieniamy tekst wyświetlany przy wyborze kont
+		$('.filtrowanie-buttons a.btn').text('Konta biorące udział w kampanii');
+	});	
+
+}
+
+/*	funkcja, która dodaje obsługe pokazania tylko tych kampanii, w których 
+		dane konto brało udział 
+		el -> miejsce gdzie mamy naszą liste kont 
+		*/
+function dodajObslugeWyboruKonta(el) {
+	el.find('li').bind('click', function(event) { 
+		event.preventDefault();
+		// zapisujemy account-name	
+		_account_name = $(this).text();
+
+		// ustawiamy account-name w miejscu gdzie jest lista kont
+		$('.filtrowanie-buttons a.btn').text(_account_name);
+
+
+		_c = $miejsceNaKampanie.children().find('ul.accounts').children().filter('[data-account-screen_name="' + _account_name + '"]');
+		// ukrywamy wszystkie elementy
+		$miejsceNaKampanie.find('article').hide();
+		// pokazujemy te, które mają wybranego usera
+		_c.parents('article').show();
+
+	});
+}
+
+
+/*	funkcja, która wypełnia select nazwami kont tak by 
+		móc potem filtrowac po nazwie kont wyświetlanie kampanie */
+function dodajAccountData() {
+	// przechodzimy po wszystkich kampaniach i znajdujemy 
+	// nazwy kont
+	$.each($miejsceNaKampanie, function(index, item) {
+		$.each($(this).find('ul.accounts').children(), function(index, item) {
+			// dodajemy do tablicy kolejne znalezione nazwy
+			screen_names.push($(item).attr('data-account-screen_name'));
+		});
+
+	});
+	// sortujemy tablice z nazwami
+	screen_names.sort();
+	
+	// based on http://stackoverflow.com/questions/5506920/removing-duplicate-strings-using-javascript
+	for(var i = 1; i < screen_names.length; i++){
+    if(screen_names[i] === screen_names[i-1]){
+        screen_names.splice(i,1);
+        i--;
+     }
+	}
+	// w momencie mamy już tablicę bez powtórzeń, możemy uzupełnić teraz nasz select
+	$account_list = $('.filtrowanie-buttons .dropdown-menu');
+	$.each(screen_names, function(index, item) {
+		$account_list.append('<li><a href="#" alt="">' + item + '</a></li>');
+	});
+
+	dodajObslugeWyboruKonta($account_list);
+
+}
+
+
 $(document).ready(function() {
 
 	// pobieramy listę kampanii
 	pobierzListeKampanii($miejsceNaKampanie);
+
+	// przycisk resetujący filtrowanie
+	dodajObslugePrzyciskuPokazWszystkie();
 
 	
 
