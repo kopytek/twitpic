@@ -134,7 +134,7 @@ function dodajObslugePrzyciskuWybierzKonto(el) {
 	// targetujemy specjalna klase pomocnicza
 	$buttons = el.find('a.btn-zaznacz');
 	$.each($buttons, function(index, item) {
-		$(item).bind('click', function() {
+		$(item).bind('click', function(event) {
 			event.preventDefault();
 			$(this).parent().parent().find('li.media').toggleClass('selected');	
 			validacjaDlaListyKont();
