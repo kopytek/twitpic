@@ -870,7 +870,7 @@ h4 + hr {
 @media all and (max-width: 30em) {	
 	.etap-drugi .row-fluid .no-margin-left button{
 		margin-bottom: 1em;
-		width: 100%;
+		width: 70%;
 	}
 	body {
 		padding-left: 10px;
@@ -880,7 +880,7 @@ h4 + hr {
 		position: relative;
 		top: 5em;
 		margin-bottom: 5em;
-		padding-bottom: 1em;
+		padding-bottom: 0;
 		text-align: center;	
 		float: center !important;
 	}
@@ -896,16 +896,17 @@ h4 + hr {
 		text-align: center;
 		float: center;
 	}
+	.lista-kont .media img.media-object {
+		max-width: 86px;
+	}
 	.lista-kont .buttons a {
 		width: 100%;
 		margin: 0;
 	}
 	.lista-kont ul.media-list div.row-fluid .media-body {
-		width: 100%;
-		max-width: 100%;
-	}
-	.lead {
-		text-align: justify;
+		width: auto;
+		display: inline-block;
+		float: left;
 	}
 	.header-top {
 		margin-top: 0;
@@ -918,15 +919,21 @@ h4 + hr {
 		display: block;
 	}
 	.lead {
-		font-size: 18px;
-		line-height: 26px;
+		text-align: justify;
+		font-size: 16px;
+		line-height: 22px;
+		margin: 0 auto 1em;
 	}
 	hr {
 		margin: 10px 0;
 	}	
-	
 	.page-header {
-		margin-bottom: 1em;
+		margin-bottom: 0;
+		margin-top: 0;
+	}
+	.page-header h1 {
+		font-size: 30px;
+		line-height: 1;
 	}
 	.page-header h1 small {
 		font-size: 18px;
@@ -947,8 +954,13 @@ h4 + hr {
 	}
 	
 	.etap-pierwszy textarea {
+		display: inline-block;
 		font-size: 16px;
-		line-height: 26px;
+		line-height: 24px;
+		width: 80%;
+	}
+	.etap-pierwszy .counter {
+		display: inline-block;
 	}
 	.etap-trzeci .form-actions button {
 		margin-bottom: .5em !important;
@@ -986,6 +998,11 @@ h4 + hr {
 			column-fill: auto;	
 		float: left;
 	}
+	/* zmniejszamy zdjęcia na mobile */
+	.well-custom .img-holder img {
+		max-width: 220px;
+		max-height: 280px;
+	}
 	.lista-reklam-kampania .reklama-item {
 		margin-right: 1em;
 	}
@@ -1002,9 +1019,25 @@ h4 + hr {
 	.etap-drugi.lista-kont .buttons a {
 		width: 100%;
 	}
+	.lista-reklam .reklama-item {
+		margin: .5em 1em;
+	}
 	.well-custom h1 {
-		font-size: 26px;
-		line-height: 30px;
+		font-size: 20px;
+		line-height: 1.2em;
+	}
+	.campaign-title h1 {
+		margin-bottom: 0 !important;
+	}
+	.campaign-add {
+		padding: 0 1em;
+	}
+	.campaign-add .add-name {
+		font-size: 20px;
+		line-height: 1.6em;
+	}
+	.campaign-add img.media-object {
+		max-width: 220px;
 	}
 	.campaign-accounts .text-info,
 	.campaign-comments .text-info {
@@ -1013,6 +1046,9 @@ h4 + hr {
 	.campaign-accounts .accounts,
 	.comments {
 		padding: 0 .5em;
+	}
+	.campaign-info p {
+		line-height: 2em;
 	}
 	.media .pull-left {
 		float: left;
@@ -1025,6 +1061,8 @@ h4 + hr {
 	}
 	ul.media-list.accounts h3 {
 		margin: 0;
+		font-size: 20px;
+		line-height: 1.6em;
 	}
 	.campaign-info {
 		height: 100%;
@@ -1034,6 +1072,9 @@ h4 + hr {
 	.campaign-info p {
 		float: right;
 		border-left: none;
+	}
+	.well-filtrowanie {
+		padding: .5em;
 	}
 	.filtrowanie-search .input-prepend,
 	.filtrowanie-buttons {
@@ -1067,6 +1108,12 @@ h4 + hr {
 	}
 	.filtrowanie-search #nazwaKampanii {
 		width: 80%;
+	}
+	.etap-drugi.lista-kont .media-list div.row-fluid {
+		margin-bottom: 1em;
+	}
+	.media-list .row-fluid .well-small {
+		margin-bottom: .5em;
 	}
 
 }
