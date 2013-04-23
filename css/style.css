@@ -685,8 +685,305 @@ h4 + hr {
 	========================================
 */
 
-@media all and (min-width: 820px) {
+@media all and (min-width: 57em) {
 	.container {
-		max-width: 820px;
+		max-width: 57em;
 	}
+}
+@media all and (max-width: 54em) {
+	.header-top h3.muted {
+		display: inline-block;
+		width: auto;
+	}
+}
+@media all and (max-width: 50em) {
+	.lista-kont ul.media-list div.row-fluid {
+		width: auto;
+		width: 100%;
+	}
+	.lista-kont ul.media-list div.row-fluid .media-body {
+		float: left;
+		width: auto;
+	}
+
+	/* ukrywamy numerki etapów */
+	.span1.text-center {
+		display: none;
+	}
+	.lista-reklam-kampania {
+	-webkit-column-count: 2;
+	   -moz-column-count: 2;
+			column-count: 2;
+	-webkit-column-gap: 1em;
+  	   -moz-column-gap: 1em;
+			column-gap: 1em;
+	-webkit-column-fill: auto;
+	   -moz-column-fill: auto;
+			column-fill: auto;	
+		float: left;
+	}
+	.etap-drugi ul.media-list div.row-fluid {
+		width: auto;
+		max-width: 100%;
+	}
+	.etap-drugi ul.media-list .media-body {
+		float: left;
+		width: auto;
+		max-width: 75%;
+	}
+	.etap-drugi.lista-kont .buttons a {
+		width: 50%;
+	}
+	.tworzenie-reklamy {
+		padding: 0;
+	}
+	.dodawanie-reklam ul.nav.nav-tabs {
+		margin-left: 0;
+		margin-bottom: 0;
+	}
+	.tabs-left > .nav-tabs {
+		float: none;
+	}
+	.wyswietlanie-reklam h3,
+	.wyswietlanie-reklam .alert-box {
+		margin-left: 0;
+	}
+	.filtrowanie-search .input-prepend,
+	.filtrowanie-buttons {
+		/*text-align: center;*/
+	}
+	.filtrowanie-buttons button {
+		/*float: center;*/
+		/*margin-top: 1em;*/
+	}
+	.filtrowanie-search span.add-on {
+		width: 10%;
+		max-width: 10%;
+	} 
+	.filtrowanie-search .span5,
+	.filtrowanie-search .span7 {
+		float: left;
+		width: 50%;
+	}
+	.filtrowanie-search #nazwaReklamy {
+		width: 80%;
+	}
+	.filtrowanie-search #nazwaKampanii {
+		width: 80%;
+	}
+	.campaign-accounts .text-info,
+	.campaign-comments .text-info {
+		padding-left: 1em;
+	}
+	.campaign-accounts .accounts,
+	.comments {
+		padding: 0 1em;
+	}
+	.media .pull-left {
+		float: left;
+	}
+	.campaign-item .media-body {
+		padding: 0 0 1em;
+	}
+	.campaign-info {
+		height: 100%;
+		overflow: hidden;
+		line-height: 2em;
+	}
+	.campaign-info p {
+		line-height: 2.8em;
+		margin-bottom: 0;
+		padding-bottom: 0;
+	}
+	
+}
+
+@media all and (max-width: 30em) {
+	body {
+		padding-left: 10px;
+		padding-right: 10px;
+	}
+	.header-top ul.nav {
+		float: center !important;
+	}
+	.header-top ul.nav > li {
+		text-align: center;
+		float: center;
+	}
+	.lista-kont .buttons a {
+		width: 100%;
+		margin: 0;
+	}
+	.lista-kont ul.media-list div.row-fluid .media-body {
+		width: 100%;
+		max-width: 100%;
+	}
+	.lead {
+		text-align: justify;
+	}
+	.header-top {
+		margin-top: 0;
+	}
+	.header-top ul {
+		margin-top: 0;
+	}
+	.header-top h3.muted {
+		text-align: center;
+		display: block;
+	}
+	.lead {
+		font-size: 18px;
+		line-height: 26px;
+	}
+	hr {
+		margin: 10px 0;
+	}	
+	
+	.page-header {
+		margin-bottom: 1em;
+	}
+	.page-header h1 small {
+		font-size: 18px;
+		line-height: 26px;
+		margin-top: 1em;
+		/* word-break, by css-tricks
+		http://css-tricks.com/almanac/properties/w/word-break/
+		*/	
+		-ms-word-break: break-all;
+	     word-break: break-all;
+
+	     /*	Non standard for webkit*/
+	     word-break: break-word;
+
+		-webkit-hyphens: auto;
+		   -moz-hyphens: auto;
+		        hyphens: auto;
+	}
+	
+	.etap-pierwszy textarea {
+		font-size: 16px;
+		line-height: 26px;
+	}
+	.etap-trzeci .form-actions button {
+		margin-bottom: .5em !important;
+		margin-left: .1em !important;
+	}
+	.etap-trzeci .form-actions button + button {
+		margin-right: 0;
+	}
+	.lista-reklam {
+	-webkit-column-count: 1;
+	   -moz-column-count: 1;
+			column-count: 1;
+	-webkit-column-gap: 1em;
+  	   -moz-column-gap: 1em;
+			column-gap: 1em;
+	-webkit-column-fill: auto;
+	   -moz-column-fill: auto;
+			column-fill: auto;	
+	}
+	.lista-reklam .edit {
+		/*line-height: 1.5em;*/
+	}
+	.lista-reklam .edit a {
+		/*line-height: 3em;*/
+	}
+	.lista-reklam-kampania {
+	-webkit-column-count: 1;
+	   -moz-column-count: 1;
+			column-count: 1;
+	-webkit-column-gap: 1em;
+  	   -moz-column-gap: 1em;
+			column-gap: 1em;
+	-webkit-column-fill: auto;
+	   -moz-column-fill: auto;
+			column-fill: auto;	
+		float: left;
+	}
+	
+	.etap-drugi ul.media-list div.row-fluid {
+		width: 100%;
+		max-width: 100%;
+	}
+	.etap-drugi ul.media-list .media-body {
+		float: left;
+		width: auto;
+		max-width: 100%;
+	}
+	.etap-drugi.lista-kont .buttons a {
+		width: 100%;
+	}
+	.well-custom h1 {
+		font-size: 26px;
+		line-height: 30px;
+	}
+	.campaign-accounts .text-info,
+	.campaign-comments .text-info {
+		padding-left: .5em;
+	}
+	.campaign-accounts .accounts,
+	.comments {
+		padding: 0 .5em;
+	}
+	.media .pull-left {
+		float: left;
+	}
+	.campaign-item .media-body {
+		padding: 0 0 .6em;
+	}
+	ul.media-list.accounts a.pull-left {
+		margin-bottom: 0;
+	}
+	ul.media-list.accounts h3 {
+		margin: 0;
+	}
+	.campaign-info {
+		height: 100%;
+		overflow: hidden;
+		line-height: 1.4em;
+	}
+	.campaign-info p {
+		float: right;
+		border-left: none;
+	}
+	.campaign-info p:first-child {
+		padding-top: .5em;
+	}
+	.filtrowanie-search .input-prepend,
+	.filtrowanie-buttons {
+		text-align: center;
+	}
+	.filtrowanie-buttons .btn-group {
+		width: 100%;
+	}
+	.filtrowanie-buttons .dropdown-menu {
+		position: relative;
+		left: none;
+		width: 200px;
+		margin: 0 auto;
+		float: center;
+	}
+	.filtrowanie-buttons button {
+		float: center;
+		margin-top: 1em;
+	}
+	.filtrowanie-search span.add-on {
+		width: 10%;
+		max-width: 10%;
+	}
+	.filtrowanie-search .span5,
+	.filtrowanie-search .span7 {
+		float: none;
+		width: 100%;
+	} 
+	.filtrowanie-search #nazwaReklamy {
+		width: 80%;
+	}
+	.filtrowanie-search #nazwaKampanii {
+		width: 80%;
+	}
+
+}
+@media all and (max-width: 23em) {
+	
 }
