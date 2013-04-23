@@ -685,18 +685,67 @@ h4 + hr {
 	========================================
 */
 
-@media all and (min-width: 57em) {
+/* musimy poprawić wyświetlanie tabs na stronie /dodawanie-reklamy */
+@media all and (max-width: 69em) {
+	.dodawanie-reklam ul.nav.nav-tabs {
+		margin-left: 0;
+		margin-bottom: 0;
+	}
+	.tabs-left > .nav-tabs {
+		float: none;
+	}
+}
+/* podstawowy media query do ograniczenia width strony, wrapper */
+@media all and (min-width: 58em) {
 	.container {
-		max-width: 57em;
+		max-width: 58em;
+	}
+	
+}
+@media all and (max-width: 62em) {
+	/* poprawiany wyświetlanie głównej nawigacji */
+	.header-top hr {
+		visibility: hidden;
+	}
+	.header-top ul.nav {
+		position: relative;
+		top: 5em;
+		margin-bottom: 4em;
+		padding-bottom: 1em;
+	}
+	.header-top h3 a {
+		position: absolute;
+		top: 1em;
+		width: 20%;
+		text-align: center;
+		left: 0;
+		margin-left: 40%;
 	}
 }
 @media all and (max-width: 54em) {
-	.header-top h3.muted {
-		display: inline-block;
-		width: auto;
+	/* tworzenie-kampanii, fix dla przyciskow 'zanznacz/odznacz wszystkie' */
+	.etap-drugi .row-fluid .no-margin-left {
+		margin-left: 0;
+		width: 100%;
 	}
 }
 @media all and (max-width: 50em) {
+	.header-top hr {
+		visibility: visible;
+	}	
+	.header-top ul.nav {
+		margin-bottom: 5em;
+		float: center;
+		text-align: center;
+	}
+	.header-top h3 a {
+		position: absolute;
+		left: 0;
+		margin-left: 30%;
+		top: 1em;
+		width: 40%;
+		text-align: center;
+	}
 	.lista-kont ul.media-list div.row-fluid {
 		width: auto;
 		width: 100%;
@@ -711,9 +760,9 @@ h4 + hr {
 		display: none;
 	}
 	.lista-reklam-kampania {
-	-webkit-column-count: 2;
-	   -moz-column-count: 2;
-			column-count: 2;
+	-webkit-column-count: 3;
+	   -moz-column-count: 3;
+			column-count: 3;
 	-webkit-column-gap: 1em;
   	   -moz-column-gap: 1em;
 			column-gap: 1em;
@@ -737,24 +786,9 @@ h4 + hr {
 	.tworzenie-reklamy {
 		padding: 0;
 	}
-	.dodawanie-reklam ul.nav.nav-tabs {
-		margin-left: 0;
-		margin-bottom: 0;
-	}
-	.tabs-left > .nav-tabs {
-		float: none;
-	}
 	.wyswietlanie-reklam h3,
 	.wyswietlanie-reklam .alert-box {
 		margin-left: 0;
-	}
-	.filtrowanie-search .input-prepend,
-	.filtrowanie-buttons {
-		/*text-align: center;*/
-	}
-	.filtrowanie-buttons button {
-		/*float: center;*/
-		/*margin-top: 1em;*/
 	}
 	.filtrowanie-search span.add-on {
 		width: 10%;
@@ -795,16 +829,68 @@ h4 + hr {
 		margin-bottom: 0;
 		padding-bottom: 0;
 	}
-	
-}
 
-@media all and (max-width: 30em) {
+	.well-custom .img-holder,
+	.well-custom .media-body,
+	.well-custom .media-details {
+		padding: .5em;
+	}
+	.reklama-item .media-body h1 {
+		margin: 0;
+	}
+	.lista-reklam .media-buttons {
+		overflow: hidden;
+		height: 100%;
+		line-height: 2.5em;
+	}
+	.lista-reklam .media-buttons a {
+		line-height: 1.3em;
+	}
+}
+@media all and (max-width: 40em) {
+	.lista-reklam-kampania {
+	-webkit-column-count: 2;
+	   -moz-column-count: 2;
+			column-count: 2;
+	-webkit-column-gap: 1em;
+  	   -moz-column-gap: 1em;
+			column-gap: 1em;
+	-webkit-column-fill: auto;
+	   -moz-column-fill: auto;
+			column-fill: auto;	
+		float: left;
+	}
+	.etap-drugi ul.media-list .media-body {
+		max-width: 65%;
+	}
+	.lista-kont ul.media-list div.row-fluid .media-body {
+		width: 65%;
+	}
+}
+@media all and (max-width: 30em) {	
+	.etap-drugi .row-fluid .no-margin-left button{
+		margin-bottom: 1em;
+		width: 100%;
+	}
 	body {
 		padding-left: 10px;
 		padding-right: 10px;
 	}
 	.header-top ul.nav {
+		position: relative;
+		top: 5em;
+		margin-bottom: 5em;
+		padding-bottom: 1em;
+		text-align: center;	
 		float: center !important;
+	}
+	.header-top h3 a {
+		position: absolute;
+		margin-left: 0;
+		top: .5em;
+		left: 25%;
+		width: 50%;
+		text-align: center;
 	}
 	.header-top ul.nav > li {
 		text-align: center;
@@ -900,6 +986,9 @@ h4 + hr {
 			column-fill: auto;	
 		float: left;
 	}
+	.lista-reklam-kampania .reklama-item {
+		margin-right: 1em;
+	}
 	
 	.etap-drugi ul.media-list div.row-fluid {
 		width: 100%;
@@ -946,9 +1035,6 @@ h4 + hr {
 		float: right;
 		border-left: none;
 	}
-	.campaign-info p:first-child {
-		padding-top: .5em;
-	}
 	.filtrowanie-search .input-prepend,
 	.filtrowanie-buttons {
 		text-align: center;
@@ -984,6 +1070,19 @@ h4 + hr {
 	}
 
 }
+@media all and (max-width: 26em) {
+	.header-top h3 a {
+		width: 90%;
+		left: 0;
+		margin-left: 5%;
+	}
+}
 @media all and (max-width: 23em) {
-	
+	.filtrowanie-buttons .btn-group a.btn {
+		font-size: 12px;
+	}
+	.campaign-item .comments .comment-timestamp {
+		display: inline-block;
+		margin-left: 0;
+	}	
 }
