@@ -867,7 +867,16 @@ h4 + hr {
 		width: 65%;
 	}
 }
-@media all and (max-width: 30em) {	
+@media all and (max-width: 30em) {
+
+	/* fix dla index.html */
+	.jumbotron h1 {
+		font-size: 36px;
+	}
+	.jumbotron .btn-success {
+		margin-bottom: 2em;
+	}
+
 	.etap-drugi .row-fluid .no-margin-left button{
 		margin-bottom: 1em;
 		width: 70%;
