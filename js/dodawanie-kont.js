@@ -35,7 +35,7 @@ function dodajObslugePrzyciskuDelete(el) {
 	$.each($buttons, function(index, item) {
 		console.log(item);
 
-		$(item).bind('click', function() {
+		$(item).bind('click', function(event) {
 			event.preventDefault();
 			// dla każdego przycisku będziemy pamiętać konto 
 			// tak by przy usunięciu móc usunąć je także z DOM
